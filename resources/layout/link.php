@@ -16,5 +16,7 @@
 <link href="<?php ABSPATH ?>/public/css/icons.min.css" rel="stylesheet" type="text/css" />
 <!-- App Css-->
 <link href="<?php ABSPATH ?>/public/css/app.min.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 <?php global $router; ?>

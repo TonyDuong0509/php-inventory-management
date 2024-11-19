@@ -25,3 +25,7 @@
 <!-- App js -->
 <script src="<?php ABSPATH ?>/public/js/app.js"></script>
 <script src="<?php ABSPATH ?>/public/js/validate.min.js"></script>
+<script src="<?php ABSPATH ?>/public/js/script.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<?php include ABSPATH . 'resources/layout/libs.php'; ?>

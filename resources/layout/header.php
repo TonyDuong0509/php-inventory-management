@@ -370,7 +370,7 @@
                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <img class="rounded-circle header-profile-user" src="<?php ABSPATH ?>/public/images/users/avatar-1.jpg"
                         alt="Header Avatar">
-                    <span class="d-none d-xl-inline-block ms-1">Julia</span>
+                    <span class="d-none d-xl-inline-block ms-1"><?php echo $_SESSION['user']['fullName'] ?? ''; ?></span>
                     <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
                 </button>
                 <div class="dropdown-menu dropdown-menu-end">
@@ -380,7 +380,7 @@
                     <a class="dropdown-item d-block" href="#"><span class="badge bg-success float-end mt-1">11</span><i class="ri-settings-2-line align-middle me-1"></i> Settings</a>
                     <a class="dropdown-item" href="#"><i class="ri-lock-unlock-line align-middle me-1"></i> Lock screen</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item text-danger" href="#"><i class="ri-shut-down-line align-middle me-1 text-danger"></i> Logout</a>
+                    <a class="dropdown-item text-danger" href="<?php echo $router->generate('logout'); ?>"><i class="ri-shut-down-line align-middle me-1 text-danger"></i> Logout</a>
                 </div>
             </div>
 

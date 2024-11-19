@@ -33,6 +33,7 @@
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
                         <li><a href="<?php echo $router->generate('all.suppliers'); ?>">All Suppliers</a></li>
+                        <li><a href="<?php echo $router->generate('add.supplier'); ?>">Add Supplier</a></li>
                     </ul>
                 </li>
 

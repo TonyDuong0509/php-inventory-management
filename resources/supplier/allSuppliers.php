@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>Inventory Management - Dashboard</title>
+    <title>All Suppliers Page</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
     <meta content="Themesdesign" name="author" />
@@ -42,46 +42,48 @@
                                     <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                         <thead>
                                             <tr>
-                                                <th>Id</th>
+                                                <th>No.</th>
                                                 <th>Name</th>
                                                 <th>Mobile Number</th>
                                                 <th>Email</th>
                                                 <th>Address</th>
+                                                <th>Created By</th>
                                                 <th>Action</th>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>
-                                                    1
-                                                </td>
-                                                <td>
-                                                    asd
-                                                </td>
-                                                <td>
-                                                    asd
-                                                </td>
-                                                <td>
-                                                    asd
-                                                </td>
-                                                <td>
-                                                    asd
-                                                </td>
-                                                <td>
-                                                    <a href="#" class="btn btn-info sm" title="Edit Data"><i class="fas fa-edit"></i></a>
-                                                    <a href="#" class="btn btn-danger sm" title="Delete Data"><i class="fas fa-trash-alt"></i></a>
-                                                </td>
-
-                                            </tr>
+                                            <?php $stt = 1; ?>
+                                            <?php foreach ($suppliers as $supplier): ?>
+                                                <tr>
+                                                    <td>
+                                                        <?php echo $stt++; ?>
+                                                    </td>
+                                                    <td>
+                                                        <?php echo $supplier->getName(); ?>
+                                                    </td>
+                                                    <td>
+                                                        <?php echo $supplier->getMobileNo(); ?>
+                                                    </td>
+                                                    <td>
+                                                        <?php echo $supplier->getEmail(); ?>
+                                                    </td>
+                                                    <td>
+                                                        <?php echo $supplier->getAddress(); ?>
+                                                    </td>
+                                                    <td>
+                                                        <?php echo $supplier->getCreatedBy(); ?>
+                                                    </td>
+                                                    <td>
+                                                        <a href="<?php echo $router->generate('edit.supplier', ['id' => $supplier->getId()]); ?>" class="btn btn-info btn-sm" title="Edit Data"><i class="fas fa-edit"></i></a>
+                                                        <a href="<?php echo $router->generate('delete.supplier', ['id' => $supplier->getId()]); ?>" id="delete" class="btn btn-danger btn-sm" title="Delete Data"><i class="fas fa-trash-alt"></i></a>
+                                                    </td>
+                                                </tr>
+                                            <?php endforeach; ?>
                                         </tbody>
                                     </table>
-
                                 </div>
                             </div>
                         </div> <!-- end col -->
                     </div> <!-- end row -->
-
-
-
                 </div> <!-- container-fluid -->
             </div>
 

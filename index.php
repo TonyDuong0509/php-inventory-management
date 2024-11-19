@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 function my_error_handler($errno, $errstr, $errfile, $errline)
 {
     if (!(error_reporting() & $errno)) {
@@ -22,7 +24,7 @@ require ABSPATH . './bootstrap.php';
 
 require ABSPATH . './routes/web.php';
 
-if (is_array($match) && is_callable($match['target'])) {
+if (isset($match['target']) && is_callable($match['target'])) {
     call_user_func_array($match['target'], $match['params']);
 } else {
     echo 'Error 404 not found';

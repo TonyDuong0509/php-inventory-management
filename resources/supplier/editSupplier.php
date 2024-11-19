@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>Add Supplier Page</title>
+    <title>Edit Supplier Page</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
     <meta content="Themesdesign" name="author" />
@@ -25,48 +25,48 @@
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-body">
-                                    <h4 class="card-title">Add Supplier Page </h4><br><br>
+                                    <h4 class="card-title">Edit Supplier Page </h4><br><br>
                                     <a href="/all-suppliers">
                                         <p class="text-end" style="color: grey"><- Back all suppliers</p>
                                     </a>
-                                    <form method="POST" action="<?php echo $router->generate('store.supplier'); ?>" id="myForm">
+                                    <form method="POST" action="<?php echo $router->generate('update.supplier'); ?>" id="myForm">
+                                        <input type="hidden" name="supplierId" value="<?php echo $supplier->getId(); ?>">
                                         <div class="row mb-3">
-                                            <label for="example-text-input" class="col-sm-2 col-form-label">Supplier Name </label>
+                                            <label for="example-text-input" class="col-sm-2 col-form-label">Supplier Name</label>
                                             <div class="form-group col-sm-10">
-                                                <input name="name" class="form-control" type="text">
+                                                <input name="name" class="form-control" value="<?php echo $supplier->getName(); ?>" type="text">
                                             </div>
                                         </div>
                                         <!-- end row -->
                                         <div class="row mb-3">
                                             <label for="example-text-input" class="col-sm-2 col-form-label">Supplier Mobile </label>
                                             <div class="form-group col-sm-10">
-                                                <input name="mobile_no" class="form-control" type="text">
+                                                <input name="mobile_no" value="<?php echo $supplier->getMobileNo(); ?>" class="form-control" type="text">
                                             </div>
                                         </div>
                                         <!-- end row -->
                                         <div class="row mb-3">
                                             <label for="example-text-input" class="col-sm-2 col-form-label">Supplier Email </label>
                                             <div class="form-group col-sm-10">
-                                                <input name="email" class="form-control" type="email">
+                                                <input disabled name="email" value="<?php echo $supplier->getEmail(); ?>" class="form-control" type="email">
                                             </div>
                                         </div>
                                         <!-- end row -->
                                         <div class="row mb-3">
                                             <label for="example-text-input" class="col-sm-2 col-form-label">Supplier Address </label>
                                             <div class="form-group col-sm-10">
-                                                <input name="address" class="form-control" type="text">
+                                                <input name="address" value="<?php echo $supplier->getAddress(); ?>" class="form-control" type="text">
                                             </div>
                                         </div>
                                         <!-- end row -->
                                         <div class="text-end">
-                                            <input type="submit" class="btn btn-info waves-effect waves-light" value="Add Supplier">
+                                            <button type="submit" class="btn btn-info waves-effect waves-light">Save</button>
                                         </div>
                                     </form>
                                 </div>
                             </div>
                         </div> <!-- end col -->
                     </div>
-
                 </div>
             </div>
 
@@ -90,9 +90,6 @@
                     mobile_no: {
                         required: true,
                     },
-                    email: {
-                        required: true,
-                    },
                     address: {
                         required: true,
                     },
@@ -100,7 +97,6 @@
                 messages: {
                     name: "Please provide your name",
                     mobile_no: 'Please provide your mobile no',
-                    email: 'Please provide your email',
                     address: 'Please provide your address'
                 },
                 errorElement: 'span',
