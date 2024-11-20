@@ -22,10 +22,11 @@ class SupplierRepository implements SupplierRepositoryInterface
             $email = $mysqli->real_escape_string($params['email']);
             $address = $mysqli->real_escape_string($params['address']);
             $created_by = $mysqli->real_escape_string($params['created_by']);;
-            $created_at = date('Y-m-d');
+            $created_at = $params['created_at'];
+            $updated_at = $params['updated_at'];
 
-            $sql = "INSERT INTO suppliers (name, mobile_no, email, address, created_by, created_at)
-                VALUES ('$supplierName', '$mobile_no', '$email', '$address', '$created_by', '$created_at')";
+            $sql = "INSERT INTO suppliers (name, mobile_no, email, address, created_by, created_at, updated_at)
+                VALUES ('$supplierName', '$mobile_no', '$email', '$address', '$created_by', '$created_at', '$updated_at')";
 
             if ($mysqli->query($sql) === true) return $mysqli->insert_id;
         } catch (Exception $error) {
@@ -33,7 +34,7 @@ class SupplierRepository implements SupplierRepositoryInterface
         }
     }
 
-    public function fetchAll($condition = null): array
+    public function fetchAll($condition = null, $orderBy = null): array
     {
         try {
             global $mysqli;
@@ -43,6 +44,10 @@ class SupplierRepository implements SupplierRepositoryInterface
             if ($condition) {
                 $sql .= " WHERE $condition";
             }
+            if ($orderBy) {
+                $sql .= " ORDER BY $orderBy";
+            }
+
             $result = $mysqli->query($sql);
             if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
@@ -60,9 +65,8 @@ class SupplierRepository implements SupplierRepositoryInterface
                     );
                     $suppliers[] = $supplier;
                 };
-
-                return $suppliers;
             }
+            return $suppliers;
         } catch (Exception $error) {
             throw new Exception($error->getMessage());
         }

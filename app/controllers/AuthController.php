@@ -4,6 +4,8 @@ namespace App\Controllers;
 
 use App\Services\UserService;
 
+use function Utils\Functions\getDateTime;
+
 class AuthController
 {
     private $userService;
@@ -13,20 +15,23 @@ class AuthController
         $this->userService = $userService;
     }
 
-    public function registerForm(): void
+    public function registerForm()
     {
         require ABSPATH . 'resources/auth/registerForm.php';
     }
 
-    public function register(): void
+    public function register()
     {
         $fullName = $_POST['fullName'] ?? '';
         $email = $_POST['email'] ?? '';
         $phone = $_POST['phone'] ?? '';
         $password = $_POST['password'] ?? '';
-        $role = "User";
+        $role = "Employee";
+        $status = 0;
 
         $this->userService->getAllUsers() ? $role = $role : $role = "Admin";
+        if ($role === 'Admin') $status = 1;
+
 
         if ($this->userService->getByEmail($email)) {
             $_SESSION['formData'] = [
@@ -50,7 +55,9 @@ class AuthController
             'phone' => $phone,
             'password' => password_hash($password, PASSWORD_BCRYPT),
             'role' => $role,
-            'created_at' => date('Y-m-d H:i:s'),
+            'created_at' => getDateTime(),
+            'updated_at' => getDateTime(),
+            'status' => $status
         ];
 
         $this->userService->store($params);
@@ -64,12 +71,12 @@ class AuthController
         exit;
     }
 
-    public function loginForm(): void
+    public function loginForm()
     {
         require ABSPATH . 'resources/auth/loginForm.php';
     }
 
-    public function login(): void
+    public function login()
     {
         $email = $_POST['email'] ?? '';
         $password = $_POST['password'] ?? '';
@@ -120,7 +127,7 @@ class AuthController
         exit;
     }
 
-    public function logout(): void
+    public function logout()
     {
         if (isset($_SESSION['user'])) {
             unset($_SESSION['user']);

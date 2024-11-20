@@ -20,7 +20,7 @@ class SupplierService
 
     public function getAllSuppliers(): array
     {
-        return $this->supplierRepository->fetchAll();
+        return $this->supplierRepository->fetchAll(null, 'id DESC');
     }
 
     public function getById($id): object | bool

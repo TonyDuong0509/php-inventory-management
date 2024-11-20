@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>All Suppliers Page</title>
+    <title>All Customers Page</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
     <meta content="Themesdesign" name="author" />
@@ -25,7 +25,7 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                <h4 class="mb-sm-0">Suppliers All</h4>
+                                <h4 class="mb-sm-0">Customers All</h4>
 
                             </div>
                         </div>
@@ -36,9 +36,9 @@
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-body">
-                                    <a href="<?php echo $router->generate('add.supplier'); ?>" class="btn btn-dark btn-rounded waves-effect waves-light" style="float:right;">Add Supplier </a> <br> <br>
-                                    <h4 class="card-title">Suppliers All Data </h4>
-                                    <?php if (empty($suppliers)): ?>
+                                    <a href="/add-customer" class="btn btn-dark btn-rounded waves-effect waves-light" style="float:right;">Add Customer </a> <br> <br>
+                                    <h4 class="card-title">Customers All Data </h4>
+                                    <?php if (empty($customers)): ?>
                                         <h3 style="text-align: center; color: red;">No data available</h3>
 
                                     <?php else: ?>
@@ -47,6 +47,7 @@
                                                 <tr>
                                                     <th>No.</th>
                                                     <th>Name</th>
+                                                    <th>Image</th>
                                                     <th>Mobile Number</th>
                                                     <th>Email</th>
                                                     <th>Address</th>
@@ -55,29 +56,32 @@
                                             </thead>
                                             <tbody>
                                                 <?php $stt = 1; ?>
-                                                <?php foreach ($suppliers as $supplier): ?>
+                                                <?php foreach ($customers as $customer): ?>
                                                     <tr>
                                                         <td>
                                                             <?php echo $stt++; ?>
                                                         </td>
                                                         <td>
-                                                            <?php echo $supplier->getName(); ?>
+                                                            <?php echo $customer->getName(); ?>
                                                         </td>
                                                         <td>
-                                                            <?php echo $supplier->getMobileNo(); ?>
+                                                            <img src="<?php echo $customer->getCustomerImage(); ?>" alt="<?php echo $customer->getName(); ?>" style="width: 60px; height: 50px;">
                                                         </td>
                                                         <td>
-                                                            <?php echo $supplier->getEmail(); ?>
+                                                            <?php echo $customer->getMobileNo(); ?>
                                                         </td>
                                                         <td>
-                                                            <?php echo $supplier->getAddress(); ?>
+                                                            <?php echo $customer->getEmail(); ?>
                                                         </td>
                                                         <td>
-                                                            <?php echo $supplier->getCreatedBy(); ?>
+                                                            <?php echo $customer->getAddress(); ?>
                                                         </td>
                                                         <td>
-                                                            <a href="<?php echo $router->generate('edit.supplier', ['id' => $supplier->getId()]); ?>" class="btn btn-info btn-sm" title="Edit Data"><i class="fas fa-edit"></i></a>
-                                                            <a href="<?php echo $router->generate('delete.supplier', ['id' => $supplier->getId()]); ?>" id="delete" class="btn btn-danger btn-sm" title="Delete Data"><i class="fas fa-trash-alt"></i></a>
+                                                            <?php echo $customer->getUser()->getFullName(); ?>
+                                                        </td>
+                                                        <td>
+                                                            <a href="<?php echo $router->generate('edit.customer', ['id' => $customer->getId()]); ?>" class="btn btn-info btn-sm" title="Edit Data"><i class="fas fa-edit"></i></a>
+                                                            <a href="<?php echo $router->generate('delete.customer', ['id' => $customer->getId()]); ?>" id="delete" class="btn btn-danger btn-sm" title="Delete Data"><i class="fas fa-trash-alt"></i></a>
                                                         </td>
                                                     </tr>
                                                 <?php endforeach; ?>

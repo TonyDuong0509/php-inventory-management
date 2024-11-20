@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Middlewares;
+
 class Middleware
 {
     public static function authMiddleware()

@@ -2,11 +2,12 @@
 
 namespace App\Repositories\Interface;
 
-interface SupplierRepositoryInterface
+interface CustomerRepositoryInterface
 {
     public function store($params): int;
     public function fetchAll($condition = null, $orderBy = null): array;
-    public function getById($id): object | bool;
-    public function update($supplier): object | bool;
+    public function getByEmail($email): object|bool;
+    public function getById($id): object|bool;
+    public function update($customer): object|bool;
     public function delete($id): bool;
 }

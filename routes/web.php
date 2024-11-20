@@ -1,8 +1,10 @@
 <?php
 
 use App\Controllers\AuthController;
+use App\Controllers\CustomerController;
 use App\Controllers\SupplierController;
 use App\Controllers\UserController;
+use App\Middlewares\Middleware;
 use Container\ServiceContainer;
 
 $router = new AltoRouter();
@@ -81,5 +83,43 @@ $router->map('GET', '/delete-supplier/[i:id]', function ($id) use ($serviceConta
     $controller = $serviceContainer->resolve(SupplierController::class);
     $controller->supplierDelete($id);
 }, 'delete.supplier');
+
+
+// Customer routes
+$router->map('GET', '/all-customers', function () use ($serviceContainer) {
+    Middleware::authMiddleware();
+    $controller = $serviceContainer->resolve(CustomerController::class);
+    $controller->customersAll();
+}, 'all.customers');
+
+$router->map('GET', '/add-customer', function () use ($serviceContainer) {
+    Middleware::authMiddleware();
+    $controller = $serviceContainer->resolve(CustomerController::class);
+    $controller->customerAdd();
+}, 'add.customer');
+
+$router->map('POST', '/store-customer', function () use ($serviceContainer) {
+    Middleware::authMiddleware();
+    $controller = $serviceContainer->resolve(CustomerController::class);
+    $controller->customerStore();
+}, 'store.customer');
+
+$router->map('GET', '/edit-customer/[i:id]', function ($id) use ($serviceContainer) {
+    Middleware::authMiddleware();
+    $controller = $serviceContainer->resolve(CustomerController::class);
+    $controller->customerEdit($id);
+}, 'edit.customer');
+
+$router->map('POST', '/update-customer', function () use ($serviceContainer) {
+    Middleware::authMiddleware();
+    $controller = $serviceContainer->resolve(CustomerController::class);
+    $controller->customerUpdate();
+}, 'update.customer');
+
+$router->map('GET', '/delete-customer/[i:id]', function ($id) use ($serviceContainer) {
+    Middleware::authMiddleware();
+    $controller = $serviceContainer->resolve(CustomerController::class);
+    $controller->customerDelete($id);
+}, 'delete.customer');
 
 $match = $router->match();

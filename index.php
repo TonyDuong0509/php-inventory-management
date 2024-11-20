@@ -22,6 +22,8 @@ require ABSPATH . './connectDB.php';
 
 require ABSPATH . './bootstrap.php';
 
+require ABSPATH . './utils/index.php';
+
 require ABSPATH . './routes/web.php';
 
 if (isset($match['target']) && is_callable($match['target'])) {

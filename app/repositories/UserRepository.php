@@ -23,9 +23,11 @@ class UserRepository implements UserRepositoryInterface
             $phone = $mysqli->real_escape_string($params['phone']);
             $role = $mysqli->real_escape_string($params['role']);
             $created_at = $params['created_at'];
+            $updated_at = $params['updated_at'];
+            $status = $params['status'];
 
-            $sql = "INSERT INTO users (fullName, email, password, phone, role, created_at)
-                    VALUES ('$fullName', '$email', '$password', '$phone', '$role', '$created_at')";
+            $sql = "INSERT INTO users (fullName, email, password, phone, role, created_at, updated_at, status)
+                    VALUES ('$fullName', '$email', '$password', '$phone', '$role', '$created_at', '$updated_at', '$status')";
 
             if ($mysqli->query($sql) === true) {
                 return $mysqli->insert_id;
@@ -50,7 +52,16 @@ class UserRepository implements UserRepositoryInterface
             $result = $mysqli->query($sql);
             if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
-                    $user = new User($row['id'], $row['fullName'], $row['email'], $row['password'], $row['phone'], $row['role'], $row['created_at'], $row['updated_at']);
+                    $user = new User(
+                        $row['id'],
+                        $row['fullName'],
+                        $row['email'],
+                        $row['password'],
+                        $row['phone'],
+                        $row['role'],
+                        $row['created_at'],
+                        $row['updated_at']
+                    );
 
                     $users[] = $user;
                 }
