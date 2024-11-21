@@ -23,7 +23,7 @@ class UnitService
         return $this->unitRepository->fetchAll(null, "id DESC");
     }
 
-    public function getById($id)
+    public function getById($id): object
     {
         return $this->unitRepository->getById($id);
     }

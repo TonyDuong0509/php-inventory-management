@@ -1,6 +1,7 @@
 <?php
 
 use App\Controllers\AuthController;
+use App\Controllers\CategoryController;
 use App\Controllers\CustomerController;
 use App\Controllers\SupplierController;
 use App\Controllers\UnitController;
@@ -163,5 +164,40 @@ $router->map('GET', '/delete-unit/[i:id]', function ($id) use ($serviceContainer
 
 
 // Category routes
+$router->map('GET', '/all-categories', function () use ($serviceContainer) {
+    Middleware::authMiddleware();
+    $controller = $serviceContainer->resolve(CategoryController::class);
+    $controller->categoriesAll();
+}, 'all.categories');
+
+$router->map('GET', '/add-category', function () use ($serviceContainer) {
+    Middleware::authMiddleware();
+    $controller = $serviceContainer->resolve(CategoryController::class);
+    $controller->categoryAdd();
+}, 'add.category');
+
+$router->map('POST', '/store-category', function () use ($serviceContainer) {
+    Middleware::authMiddleware();
+    $controller = $serviceContainer->resolve(CategoryController::class);
+    $controller->categoryStore();
+}, 'store.category');
+
+$router->map('GET', '/edit-category/[i:id]', function ($id) use ($serviceContainer) {
+    Middleware::authMiddleware();
+    $controller = $serviceContainer->resolve(CategoryController::class);
+    $controller->categoryEdit($id);
+}, 'edit.category');
+
+$router->map('POST', '/update-category', function () use ($serviceContainer) {
+    Middleware::authMiddleware();
+    $controller = $serviceContainer->resolve(CategoryController::class);
+    $controller->categoryUpdate();
+}, 'update.category');
+
+$router->map('GET', '/delete-category/[i:id]', function ($id) use ($serviceContainer) {
+    Middleware::authMiddleware();
+    $controller = $serviceContainer->resolve(CategoryController::class);
+    $controller->categoryDelete($id);
+}, 'delete.category');
 
 $match = $router->match();
