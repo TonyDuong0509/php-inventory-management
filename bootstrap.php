@@ -4,6 +4,7 @@
 require_once ABSPATH . 'app/repositories/interfaces/SupplierRepositoryInterface.php';
 require_once ABSPATH . 'app/repositories/interfaces/UserRepositoryInterface.php';
 require_once ABSPATH . 'app/repositories/interfaces/CustomerRepositoryInterface.php';
+require_once ABSPATH . 'app/repositories/interfaces/UnitRepositoryInterface.php';
 
 
 // Models && Repositories
@@ -13,6 +14,8 @@ require_once ABSPATH . 'app/models/User.php';
 require_once ABSPATH . 'app/repositories/UserRepository.php';
 require_once ABSPATH . 'app/models/Customer.php';
 require_once ABSPATH . 'app/repositories/CustomerRepository.php';
+require_once ABSPATH . 'app/models/Unit.php';
+require_once ABSPATH . 'app/repositories/UnitRepository.php';
 
 require_once ABSPATH . 'container/ServiceContainer.php';
 
@@ -21,6 +24,7 @@ require_once ABSPATH . 'container/ServiceContainer.php';
 require_once ABSPATH . 'app/services/SupplierService.php';
 require_once ABSPATH . 'app/services/UserService.php';
 require_once ABSPATH . 'app/services/CustomerService.php';
+require_once ABSPATH . 'app/services/UnitService.php';
 
 
 // Middlewares

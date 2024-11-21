@@ -3,6 +3,7 @@
 use App\Controllers\AuthController;
 use App\Controllers\CustomerController;
 use App\Controllers\SupplierController;
+use App\Controllers\UnitController;
 use App\Controllers\UserController;
 use App\Middlewares\Middleware;
 use Container\ServiceContainer;
@@ -121,5 +122,46 @@ $router->map('GET', '/delete-customer/[i:id]', function ($id) use ($serviceConta
     $controller = $serviceContainer->resolve(CustomerController::class);
     $controller->customerDelete($id);
 }, 'delete.customer');
+
+
+// Unit routes
+$router->map('GET', '/all-units', function () use ($serviceContainer) {
+    Middleware::authMiddleware();
+    $controller = $serviceContainer->resolve(UnitController::class);
+    $controller->unitsAll();
+}, 'all.units');
+
+$router->map('GET', '/add-unit', function () use ($serviceContainer) {
+    Middleware::authMiddleware();
+    $controller = $serviceContainer->resolve(UnitController::class);
+    $controller->unitAdd();
+}, 'add.units');
+
+$router->map('POST', '/store-unit', function () use ($serviceContainer) {
+    Middleware::authMiddleware();
+    $controller = $serviceContainer->resolve(UnitController::class);
+    $controller->unitStore();
+}, 'store.unit');
+
+$router->map('GET', '/edit-unit/[i:id]', function ($id) use ($serviceContainer) {
+    Middleware::authMiddleware();
+    $controller = $serviceContainer->resolve(UnitController::class);
+    $controller->unitEdit($id);
+}, 'edit.unit');
+
+$router->map('POST', '/update-unit', function () use ($serviceContainer) {
+    Middleware::authMiddleware();
+    $controller = $serviceContainer->resolve(UnitController::class);
+    $controller->unitUpdate();
+}, 'update.unit');
+
+$router->map('GET', '/delete-unit/[i:id]', function ($id) use ($serviceContainer) {
+    Middleware::authMiddleware();
+    $controller = $serviceContainer->resolve(UnitController::class);
+    $controller->unitDelete($id);
+}, 'delete.unit');
+
+
+// Category routes
 
 $match = $router->match();
