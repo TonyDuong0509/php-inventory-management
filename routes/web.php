@@ -3,6 +3,7 @@
 use App\Controllers\AuthController;
 use App\Controllers\CategoryController;
 use App\Controllers\CustomerController;
+use App\Controllers\ProductController;
 use App\Controllers\SupplierController;
 use App\Controllers\UnitController;
 use App\Controllers\UserController;
@@ -199,5 +200,43 @@ $router->map('GET', '/delete-category/[i:id]', function ($id) use ($serviceConta
     $controller = $serviceContainer->resolve(CategoryController::class);
     $controller->categoryDelete($id);
 }, 'delete.category');
+
+
+// Product routes
+$router->map('GET', '/all-products', function () use ($serviceContainer) {
+    Middleware::authMiddleware();
+    $controller = $serviceContainer->resolve(ProductController::class);
+    $controller->productsAll();
+}, 'all.products');
+
+$router->map('GET', '/add-product', function () use ($serviceContainer) {
+    Middleware::authMiddleware();
+    $controller = $serviceContainer->resolve(ProductController::class);
+    $controller->productAdd();
+}, 'add.products');
+
+$router->map('POST', '/store-product', function () use ($serviceContainer) {
+    Middleware::authMiddleware();
+    $controller = $serviceContainer->resolve(ProductController::class);
+    $controller->productStore();
+}, 'store.product');
+
+$router->map('GET', '/edit-product/[i:id]', function ($id) use ($serviceContainer) {
+    Middleware::authMiddleware();
+    $controller = $serviceContainer->resolve(ProductController::class);
+    $controller->productEdit($id);
+}, 'edit.product');
+
+$router->map('POST', '/update-product', function () use ($serviceContainer) {
+    Middleware::authMiddleware();
+    $controller = $serviceContainer->resolve(ProductController::class);
+    $controller->productUpdate();
+}, 'update.product');
+
+$router->map('GET', '/delete-product/[i:id]', function ($id) use ($serviceContainer) {
+    Middleware::authMiddleware();
+    $controller = $serviceContainer->resolve(ProductController::class);
+    $controller->productDelete($id);
+}, 'delete.product');
 
 $match = $router->match();
