@@ -38,10 +38,31 @@ class SupplierController
 
         $user = $this->userService->getById($id);
 
-        $name = $_POST['name'] ?? '';
-        $mobile_no = $_POST['mobile_no'] ?? '';
-        $email = $_POST['email'] ?? '';
-        $address = $_POST['address'] ?? '';
+        if (
+            empty($_POST['name']) ||
+            empty($_POST['mobile_no']) ||
+            empty($_POST['email']) ||
+            empty($_POST['address'])
+        ) {
+            $_SESSION['formData'] = [
+                'name' => $_POST['name'],
+                'mobile_no' => $_POST['mobile_no'],
+                'email' => $_POST['email'],
+                'address' => $_POST['address'],
+            ];
+
+            $_SESSION['toastrNotify'] = [
+                'alert-type' => 'error',
+                'message' => 'Please select fields'
+            ];
+            header("Location: " . $_SERVER['HTTP_REFERER']);
+            exit;
+        }
+
+        $name = $_POST['name'];
+        $mobile_no = $_POST['mobile_no'];
+        $email = $_POST['email'];
+        $address = $_POST['address'];
         $created_by = $user->getEmail();
         $created_at = getDateTime();
         $updated_at = getDateTime();

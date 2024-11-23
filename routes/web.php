@@ -3,7 +3,9 @@
 use App\Controllers\AuthController;
 use App\Controllers\CategoryController;
 use App\Controllers\CustomerController;
+use App\Controllers\DefaultController;
 use App\Controllers\ProductController;
+use App\Controllers\PurchaseController;
 use App\Controllers\SupplierController;
 use App\Controllers\UnitController;
 use App\Controllers\UserController;
@@ -13,6 +15,20 @@ use Container\ServiceContainer;
 $router = new AltoRouter();
 
 $serviceContainer = new ServiceContainer();
+
+// Default Controller
+$router->map('GET', '/get-category', function () use ($serviceContainer) {
+    Middleware::authMiddleware();
+    $controller = $serviceContainer->resolve(DefaultController::class);
+    $controller->getCategory();
+}, 'get.category');
+
+$router->map('GET', '/get-product', function () use ($serviceContainer) {
+    Middleware::authMiddleware();
+    $controller = $serviceContainer->resolve(DefaultController::class);
+    $controller->getProduct();
+}, 'get.product');
+
 
 // Auth routes
 $router->map('GET', '/register-form', function () use ($serviceContainer) {
@@ -238,5 +254,55 @@ $router->map('GET', '/delete-product/[i:id]', function ($id) use ($serviceContai
     $controller = $serviceContainer->resolve(ProductController::class);
     $controller->productDelete($id);
 }, 'delete.product');
+
+
+// Purchases routes
+$router->map('GET', '/all-purchases', function () use ($serviceContainer) {
+    Middleware::authMiddleware();
+    $controller = $serviceContainer->resolve(PurchaseController::class);
+    $controller->purchasesAll();
+}, 'all.purchases');
+
+$router->map('GET', '/add-purchase', function () use ($serviceContainer) {
+    Middleware::authMiddleware();
+    $controller = $serviceContainer->resolve(PurchaseController::class);
+    $controller->purchaseAdd();
+}, 'add.purchase');
+
+$router->map('POST', '/store-purchase', function () use ($serviceContainer) {
+    Middleware::authMiddleware();
+    $controller = $serviceContainer->resolve(PurchaseController::class);
+    $controller->purchaseStore();
+}, 'store.purchase');
+
+$router->map('GET', '/edit-purchase/[i:id]', function ($id) use ($serviceContainer) {
+    Middleware::authMiddleware();
+    $controller = $serviceContainer->resolve(PurchaseController::class);
+    $controller->purchaseEdit($id);
+}, 'edit.purchase');
+
+$router->map('POST', '/update-purchase', function () use ($serviceContainer) {
+    Middleware::authMiddleware();
+    $controller = $serviceContainer->resolve(PurchaseController::class);
+    $controller->purchaseUpdate();
+}, 'update.purchase');
+
+$router->map('GET', '/delete-purchase/[i:id]', function ($id) use ($serviceContainer) {
+    Middleware::authMiddleware();
+    $controller = $serviceContainer->resolve(PurchaseController::class);
+    $controller->purchaseDelete($id);
+}, 'delete.purchase');
+
+$router->map('GET', '/pending-purchase', function () use ($serviceContainer) {
+    Middleware::authMiddleware();
+    $controller = $serviceContainer->resolve(PurchaseController::class);
+    $controller->purchasePending();
+}, 'pending.purchase');
+
+$router->map('GET', '/approve-status-purchase/[i:id]', function ($id) use ($serviceContainer) {
+    Middleware::authMiddleware();
+    $controller = $serviceContainer->resolve(PurchaseController::class);
+    $controller->purchaseApprove($id);
+}, 'approve.status.purchase');
 
 $match = $router->match();

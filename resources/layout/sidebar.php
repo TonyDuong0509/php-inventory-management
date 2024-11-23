@@ -78,6 +78,18 @@
                         <li><a href="/add-product">Add Product</a></li>
                     </ul>
                 </li>
+
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="ri-mail-send-line"></i>
+                        <span>Manage Purchases</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href="/all-purchases">All Purchases</a></li>
+                        <li><a href="/pending-purchase">Approval Purchases</a></li>
+                        <li><a href="/add-purchase">Add Purchase</a></li>
+                    </ul>
+                </li>
             </ul>
         </div>
         <!-- Sidebar -->

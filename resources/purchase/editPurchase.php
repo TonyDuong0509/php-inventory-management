@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>Add Product Page</title>
+    <title>Edit Product Page</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
     <meta content="Themesdesign" name="author" />
@@ -25,15 +25,16 @@
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-body">
-                                    <h4 class="card-title">Add Product Page</h4><br><br>
+                                    <h4 class="card-title">Edit Product Page</h4><br><br>
                                     <a href="/all-products" style="color: grey;">
-                                        <p style="text-align: end;"><- Back to products</p>
+                                        <p style="text-align: end;"><- Back to units</p>
                                     </a>
-                                    <form method="POST" action="<?php echo $router->generate('store.product'); ?>" id="myForm">
+                                    <form method="POST" action="<?php echo $router->generate('update.product'); ?>" id="myForm">
+                                        <input type="hidden" name="productId" value="<?php echo $product->getId(); ?>">
                                         <div class="row mb-3">
                                             <label for="example-text-input" class="col-sm-2 col-form-label">Product Name </label>
                                             <div class="form-group col-sm-10">
-                                                <input name="name" class="form-control" type="text" value="<?php echo $_SESSION['formData']['name'] ?? ''; ?>">
+                                                <input name="name" class="form-control" type="text" value="<?php echo $product->getName(); ?>">
                                             </div>
                                         </div>
 
@@ -41,9 +42,9 @@
                                             <label for="example-text-input" class="col-sm-2 col-form-label">Supplier Name</label>
                                             <div class="form-group col-sm-10">
                                                 <select name="supplier_id" class="form-select" aria-label="Default select example">
-                                                    <option selected="" value="<?php echo $_SESSION['formData']['supplier_id'] ?? ''; ?>">Select supplier</option>
+                                                    <option selected="">Select supplier</option>
                                                     <?php foreach ($suppliers as $supplier): ?>
-                                                        <option value="<?php echo $supplier->getId(); ?>">
+                                                        <option <?php echo $product->getSupplierId() === $supplier->getId() ? 'selected' : ''; ?> value="<?php echo $supplier->getId(); ?>">
                                                             <?php echo $supplier->getName(); ?>
                                                         </option>
                                                     <?php endforeach; ?>
@@ -55,9 +56,9 @@
                                             <label for="example-text-input" class="col-sm-2 col-form-label">Unit</label>
                                             <div class="form-group col-sm-10">
                                                 <select name="unit_id" class="form-select" aria-label="Default select example">
-                                                    <option selected="" value="<?php echo $_SESSION['formData']['unit_id'] ?? ''; ?>">Select unit</option>
+                                                    <option selected="">Select unit</option>
                                                     <?php foreach ($units as $unit): ?>
-                                                        <option value="<?php echo $unit->getId(); ?>">
+                                                        <option <?php echo $product->getUnitId() === $unit->getId() ? 'selected' : ''; ?> value="<?php echo $unit->getId(); ?>">
                                                             <?php echo $unit->getName(); ?>
                                                         </option>
                                                     <?php endforeach; ?>
@@ -69,9 +70,9 @@
                                             <label for="example-text-input" class="col-sm-2 col-form-label">Category</label>
                                             <div class="form-group col-sm-10">
                                                 <select name="category_id" class="form-select" aria-label="Default select example">
-                                                    <option selected="" value="<?php echo $_SESSION['formData']['category_id'] ?? ''; ?>">Select category</option>
+                                                    <option selected="">Select category</option>
                                                     <?php foreach ($categories as $category): ?>
-                                                        <option value="<?php echo $category->getId(); ?>">
+                                                        <option <?php echo $product->getCategoryId() === $category->getId() ? 'selected' : ''; ?> value="<?php echo $category->getId(); ?>">
                                                             <?php echo $category->getName(); ?>
                                                         </option>
                                                     <?php endforeach; ?>
@@ -80,7 +81,7 @@
                                         </div>
 
                                         <div class="text-end">
-                                            <input type="submit" class="btn btn-info waves-effect waves-light" value="Add Product">
+                                            <input type="submit" class="btn btn-info waves-effect waves-light" value="Save">
                                         </div>
                                     </form>
                                 </div>
@@ -119,7 +120,7 @@
                     },
                 },
                 messages: {
-                    name: "Please provide product's name",
+                    name: "Please provide unit's name",
                     supplier_id: "Please provide supplier's name",
                     unit_id: "Please provide unit's name",
                     category_id: "Please provide category's name",

@@ -64,8 +64,64 @@ class ProductRepository implements ProductRepositoryInterface
                     $products[] = $product;
                 };
             }
-
             return $products;
+        } catch (Exception $error) {
+            throw new Exception($error->getMessage());
+        }
+    }
+
+    public function getAllProductsByCategoryId($condition = null): array
+    {
+        try {
+            global $mysqli;
+
+            $products = [];
+            $sql = "SELECT * FROM products";
+            if ($condition) {
+                $sql .= " WHERE $condition";
+            }
+
+            $result = $mysqli->query($sql);
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    $products[] = [
+                        'id' => $row['id'],
+                        'name' => $row['name'],
+                    ];
+                };
+            }
+            return $products;
+        } catch (Exception $error) {
+            throw new Exception($error->getMessage());
+        }
+    }
+
+    public function selectCategoryWhereSupplier($supplier_id, $orderBy = null)
+    {
+        try {
+            global $mysqli;
+
+            $categories = [];
+            $sql = "SELECT p.category_id, c.name
+                    FROM products p 
+                    JOIN categories c ON p.category_id = c.id
+                    WHERE supplier_id = '$supplier_id'
+                    GROUP BY p.category_id, c.name";
+            if ($orderBy) {
+                $sql .= " ORDER BY $orderBy";
+            }
+
+            $result = $mysqli->query($sql);
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    $categories[] = [
+                        'category_id' => $row['category_id'],
+                        'name' => $row['name']
+                    ];
+                };
+            }
+
+            return $categories;
         } catch (Exception $error) {
             throw new Exception($error->getMessage());
         }
@@ -73,13 +129,10 @@ class ProductRepository implements ProductRepositoryInterface
 
     public function getById($id): object|bool
     {
-        try {
-            $condition = "id = '$id'";
-            $products = $this->fetchAll($condition);
-            return current($products);
-        } catch (Exception $error) {
-            throw new Exception($error->getMessage());
-        }
+        $products = [];
+        $condition = "id = '$id'";
+        $products = $this->fetchAll($condition, null);
+        return current($products);
     }
 
     public function update($product): object|bool
@@ -92,12 +145,13 @@ class ProductRepository implements ProductRepositoryInterface
             $unit_id = $product->getUnitId();
             $category_id = $product->getCategoryId();
             $name = $product->getName();
+            $quantity = $product->getQuantity();
             $updated_at = $product->getUpdatedAt();
             $updated_by = $product->getUpdatedBy();
 
             $sql = "UPDATE products
                     SET supplier_id = '$supplier_id', unit_id = '$unit_id', 
-                    category_id = '$category_id', name = '$name', updated_by = '$updated_by', 
+                    category_id = '$category_id', name = '$name', quantity = '$quantity', updated_by = '$updated_by', 
                     updated_at = '$updated_at'
                     WHERE id = '$id'";
 
@@ -116,6 +170,24 @@ class ProductRepository implements ProductRepositoryInterface
                     WHERE id = '$id'";
 
             if ($mysqli->query($sql) === true) return true;
+        } catch (Exception $error) {
+            throw new Exception($error->getMessage());
+        }
+    }
+
+    public function getCategory($supplier_id)
+    {
+        try {
+            global $mysqli;
+
+            $sql = "SELECT category_id
+                    FROM products
+                    WHERE supplier_id = $supplier_id
+                    GROUP BY category_id";
+
+            if ($mysqli->query($sql) === true) {
+                return $sql;
+            }
         } catch (Exception $error) {
             throw new Exception($error->getMessage());
         }

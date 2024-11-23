@@ -1,4 +1,5 @@
-<script src="<?php ABSPATH ?>/public/libs/jquery/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/notify.min.js"></script>
 <script src="<?php ABSPATH ?>/public/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="<?php ABSPATH ?>/public/libs/metismenu/metisMenu.min.js"></script>
 <script src="<?php ABSPATH ?>/public/libs/simplebar/simplebar.min.js"></script>
@@ -28,4 +29,5 @@
 <script src="<?php ABSPATH ?>/public/js/script.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.8/handlebars.js"></script>
 <?php include ABSPATH . 'resources/layout/libs.php'; ?>

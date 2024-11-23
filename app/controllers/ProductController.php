@@ -54,10 +54,30 @@ class ProductController
 
         $user = $this->userService->getById($id);
 
+        if (
+            empty($_POST['supplier_id']) ||
+            empty($_POST['unit_id']) ||
+            empty($_POST['category_id'])
+        ) {
+            $_SESSION['formData'] = [
+                'name' => $_POST['name'],
+                'supplier_id' => $_POST['supplier_id'],
+                'unit_id' => $_POST['unit_id'],
+                'category_id' => $_POST['category_id'],
+            ];
+
+            $_SESSION['toastrNotify'] = [
+                'alert-type' => 'error',
+                'message' => 'Please select fields'
+            ];
+            header("Location: " . $_SERVER['HTTP_REFERER']);
+            exit;
+        }
+
         $name = $_POST['name'] ?? '';
-        $supplier_id = $_POST['supplier_id'] ?? '';
-        $unit_id = $_POST['unit_id'] ?? '';
-        $category_id = $_POST['category_id'] ?? '';
+        $supplier_id = $_POST['supplier_id'];
+        $unit_id = $_POST['unit_id'];
+        $category_id = $_POST['category_id'];
         $created_by = $user->getId();
         $updated_by = $user->getId();
         $created_at = getDateTime();

@@ -23,7 +23,13 @@ class ProductService
         return $this->productRepository->fetchAll(null, 'id DESC');
     }
 
-    public function getById($id): object
+    public function getAllProductsByCategoryId($category_id): array
+    {
+        $condition = "category_id = '$category_id'";
+        return $this->productRepository->getAllProductsByCategoryId($condition);
+    }
+
+    public function getById($id): object|bool
     {
         return $this->productRepository->getById($id);
     }
@@ -36,5 +42,10 @@ class ProductService
     public function delete($id): bool
     {
         return $this->productRepository->delete($id);
+    }
+
+    public function getCategory($supplier_id)
+    {
+        return $this->productRepository->selectCategoryWhereSupplier($supplier_id, 'category_id DESC');
     }
 }

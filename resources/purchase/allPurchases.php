@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>All Products Page</title>
+    <title>All Purchases Page</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
     <meta content="Themesdesign" name="author" />
@@ -25,7 +25,7 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                <h4 class="mb-sm-0">Products All</h4>
+                                <h4 class="mb-sm-0">Purchases All</h4>
                             </div>
                         </div>
                     </div>
@@ -34,9 +34,9 @@
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-body">
-                                    <a href="/add-product" class="btn btn-dark btn-rounded waves-effect waves-light" style="float:right;">Add Product </a> <br> <br>
-                                    <h4 class="card-title">Products All Data </h4>
-                                    <?php if (empty($products)): ?>
+                                    <a href="/add-purchase" class="btn btn-dark btn-rounded waves-effect waves-light" style="float:right;">Add Purchase </a> <br> <br>
+                                    <h4 class="card-title">Purchases All Data </h4>
+                                    <?php if (empty($purchases)): ?>
                                         <h3 style="color: red; text-align: center;">No data available</h3>
 
                                     <?php else: ?>
@@ -44,34 +44,51 @@
                                             <thead>
                                                 <tr>
                                                     <th>No.</th>
-                                                    <th>Name</th>
+                                                    <th>Purchase No</th>
+                                                    <th>Date</th>
                                                     <th>Supplier</th>
-                                                    <th>Unit</th>
                                                     <th>Category</th>
+                                                    <th>Quantity</th>
+                                                    <th>Product</th>
+                                                    <th>Status</th>
                                                     <th>Action</th>
                                             </thead>
                                             <tbody>
                                                 <?php $stt = 1; ?>
-                                                <?php foreach ($products as $product): ?>
+                                                <?php foreach ($purchases as $purchase): ?>
                                                     <tr>
                                                         <td>
                                                             <?php echo $stt++; ?>
                                                         </td>
                                                         <td>
-                                                            <?php echo $product->getName(); ?>
+                                                            <?php echo $purchase->getPurchaseNo(); ?>
                                                         </td>
                                                         <td>
-                                                            <?php echo $product->getSupplier()->getName(); ?>
+                                                            <?php echo $purchase->getDate(); ?>
                                                         </td>
                                                         <td>
-                                                            <?php echo $product->getUnit()->getName(); ?>
+                                                            <?php echo $purchase->getSupplier()->getName(); ?>
                                                         </td>
                                                         <td>
-                                                            <?php echo $product->getCategory()->getName(); ?>
+                                                            <?php echo $purchase->getCategory()->getName(); ?>
                                                         </td>
                                                         <td>
-                                                            <a href="<?php echo $router->generate('edit.product', ['id' => $product->getId()]); ?>" class="btn btn-info btn-sm" title="Edit Data"> <i class="fas fa-edit"></i> </a>
-                                                            <a href="<?php echo $router->generate('delete.product', ['id' => $product->getId()]); ?>" class="btn btn-danger btn-sm" title="Delete Data" id="delete"> <i class="fas fa-trash-alt"></i> </a>
+                                                            <?php echo $purchase->getBuyingQty(); ?>
+                                                        </td>
+                                                        <td>
+                                                            <?php echo $purchase->getProduct()->getName(); ?>
+                                                        </td>
+                                                        <td>
+                                                            <?php if ($purchase->getStatus() === '0'): ?>
+                                                                <span class="btn btn-warning">Pending</span>
+                                                            <?php else: ?>
+                                                                <span class="btn btn-success">Approved</span>
+                                                            <?php endif; ?>
+                                                        </td>
+                                                        <td>
+                                                            <?php if ($purchase->getStatus() === '0'): ?>
+                                                                <a href="<?php echo $router->generate('delete.purchase', ['id' => $purchase->getId()]); ?>" class="btn btn-danger sm" title="Delete Data" id="delete"><i class="fas fa-trash-alt"></i> </a>
+                                                            <?php endif; ?>
                                                         </td>
                                                     </tr>
                                                 <?php endforeach; ?>
