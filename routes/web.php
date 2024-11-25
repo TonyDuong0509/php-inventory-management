@@ -4,6 +4,7 @@ use App\Controllers\AuthController;
 use App\Controllers\CategoryController;
 use App\Controllers\CustomerController;
 use App\Controllers\DefaultController;
+use App\Controllers\InvoiceController;
 use App\Controllers\ProductController;
 use App\Controllers\PurchaseController;
 use App\Controllers\SupplierController;
@@ -28,6 +29,12 @@ $router->map('GET', '/get-product', function () use ($serviceContainer) {
     $controller = $serviceContainer->resolve(DefaultController::class);
     $controller->getProduct();
 }, 'get.product');
+
+$router->map('GET', '/check-product', function () use ($serviceContainer) {
+    Middleware::authMiddleware();
+    $controller = $serviceContainer->resolve(DefaultController::class);
+    $controller->getStock();
+}, 'check.product.stock');
 
 
 // Auth routes
@@ -304,5 +311,19 @@ $router->map('GET', '/approve-status-purchase/[i:id]', function ($id) use ($serv
     $controller = $serviceContainer->resolve(PurchaseController::class);
     $controller->purchaseApprove($id);
 }, 'approve.status.purchase');
+
+
+// Invoice routes
+$router->map('GET', '/all-invoices', function () use ($serviceContainer) {
+    Middleware::authMiddleware();
+    $controller = $serviceContainer->resolve(InvoiceController::class);
+    $controller->invoicesAll();
+}, 'all.invoices');
+
+$router->map('GET', '/add-invoice', function () use ($serviceContainer) {
+    Middleware::authMiddleware();
+    $controller = $serviceContainer->resolve(InvoiceController::class);
+    $controller->invoiceAdd();
+}, 'add.invoice');
 
 $match = $router->match();

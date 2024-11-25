@@ -34,7 +34,7 @@
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-body">
-                                    <a href="/add-purchase" class="btn btn-dark btn-rounded waves-effect waves-light" style="float:right;">Add Purchase </a> <br> <br>
+                                    <a href="/add-purchase" class="btn btn-dark btn-rounded waves-effect waves-light" style="float:right;"><i class="fas fa-plus-circle"></i> Add Purchase </a> <br> <br>
                                     <h4 class="card-title">Purchases All Data </h4>
                                     <?php if (empty($purchases)): ?>
                                         <h3 style="color: red; text-align: center;">No data available</h3>

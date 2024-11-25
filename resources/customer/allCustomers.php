@@ -36,7 +36,7 @@
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-body">
-                                    <a href="/add-customer" class="btn btn-dark btn-rounded waves-effect waves-light" style="float:right;">Add Customer </a> <br> <br>
+                                    <a href="/add-customer" class="btn btn-dark btn-rounded waves-effect waves-light" style="float:right;"><i class="fas fa-plus-circle"></i> Add Customer </a> <br> <br>
                                     <h4 class="card-title">Customers All Data </h4>
                                     <?php if (empty($customers)): ?>
                                         <h3 style="text-align: center; color: red;">No data available</h3>

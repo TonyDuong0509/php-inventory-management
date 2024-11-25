@@ -20,7 +20,13 @@ class ProductService
 
     public function getAllProducts(): array
     {
-        return $this->productRepository->fetchAll(null, 'id DESC');
+        return $this->productRepository->fetchAll('*', null, 'id DESC');
+    }
+
+    public function getStock($product_id): array
+    {
+        $condition = "id = $product_id LIMIT 1";
+        return $this->productRepository->fetchAllForStockQuantity($condition, null);
     }
 
     public function getAllProductsByCategoryId($category_id): array

@@ -31,13 +31,13 @@ class ProductRepository implements ProductRepositoryInterface
         }
     }
 
-    public function fetchAll($condition = null, $orderBy = null): array
+    public function fetchAll($fields, $condition = null, $orderBy = null): array
     {
         try {
             global $mysqli;
 
             $products = [];
-            $sql = "SELECT * FROM products";
+            $sql = "SELECT $fields FROM products";
             if ($condition) {
                 $sql .= " WHERE $condition";
             }
@@ -62,6 +62,32 @@ class ProductRepository implements ProductRepositoryInterface
                         $row['updated_at']
                     );
                     $products[] = $product;
+                };
+            }
+            return $products;
+        } catch (Exception $error) {
+            throw new Exception($error->getMessage());
+        }
+    }
+
+    public function fetchAllForStockQuantity($condition = null, $orderBy = null): array
+    {
+        try {
+            global $mysqli;
+
+            $products = [];
+            $sql = "SELECT quantity FROM products";
+            if ($condition) {
+                $sql .= " WHERE $condition";
+            }
+            if ($orderBy) {
+                $sql .= " ORDER BY $orderBy";
+            }
+
+            $result = $mysqli->query($sql);
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    $products[] = $row;
                 };
             }
             return $products;

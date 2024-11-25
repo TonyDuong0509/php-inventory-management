@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>All Purchases Page</title>
+    <title>All Products Page</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
     <meta content="Themesdesign" name="author" />
@@ -25,76 +25,57 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                <h4 class="mb-sm-0">Pending Purchases</h4>
+                                <h4 class="mb-sm-0">Invoices All</h4>
                             </div>
                         </div>
                     </div>
                     <!-- end page title -->
-
                     <div class="row">
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-body">
-                                    <a href="/add-purchase" class="btn btn-dark btn-rounded waves-effect waves-light" style="float:right;"><i class="fas fa-plus-circle"></i> Purchase Pending </a> <br> <br>
-                                    <h4 class="card-title">Pending Purchases Data</h4>
-                                    <?php if (empty($pendingPurchases) || !isset($pendingPurchases)): ?>
-                                        <h2 style="color: red; text-align: center;">No data available</h2>
+                                    <a href="/add-invoice" class="btn btn-dark btn-rounded waves-effect waves-light" style="float:right;"><i class="fas fa-plus-circle"></i> Add Invoice </a> <br> <br>
+                                    <h4 class="card-title">Invoices All Data </h4>
+                                    <?php if (empty($invoices)): ?>
+                                        <h3 style="color: red; text-align: center;">No data available</h3>
                                     <?php else: ?>
                                         <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                             <thead>
                                                 <tr>
                                                     <th>No.</th>
-                                                    <th>Purchase No</th>
-                                                    <th>Date </th>
-                                                    <th>Supplier</th>
-                                                    <th>Category</th>
-                                                    <th>Qty</th>
-                                                    <th>Product</th>
-                                                    <th>Status</th>
+                                                    <th>Customer Name</th>
+                                                    <th>Invoice No</th>
+                                                    <th>Date</th>
+                                                    <th>Description</th>
                                                     <th>Action</th>
                                             </thead>
                                             <tbody>
                                                 <?php $stt = 1; ?>
-                                                <?php foreach ($pendingPurchases as $purchase): ?>
+                                                <?php foreach ($invoices as $invoice): ?>
                                                     <tr>
                                                         <td>
-                                                            <?php echo $stt++; ?>
+
                                                         </td>
                                                         <td>
-                                                            <?php echo $purchase->getPurchaseNo(); ?>
+
                                                         </td>
                                                         <td>
-                                                            <?php echo $purchase->getDate(); ?>
+
                                                         </td>
                                                         <td>
-                                                            <?php echo $purchase->getSupplier()->getName(); ?>
+
                                                         </td>
                                                         <td>
-                                                            <?php echo $purchase->getCategory()->getName(); ?>
+
                                                         </td>
                                                         <td>
-                                                            <?php echo $purchase->getBuyingQty(); ?>
-                                                        </td>
-                                                        <td>
-                                                            <?php echo $purchase->getProduct()->getName(); ?>
-                                                        </td>
-                                                        <td>
-                                                            <?php if ($purchase->getStatus() === '0'): ?>
-                                                                <span class="btn btn-warning">Pending</span>
-                                                            <?php else: ?>
-                                                                <span class="btn btn-success">Approved</span>
-                                                            <?php endif; ?>
-                                                        </td>
-                                                        <td>
-                                                            <?php if ($purchase->getStatus() === '0'): ?>
-                                                                <a href="<?php echo $router->generate('approve.status.purchase', ['id' => $purchase->getId()]); ?>" class="btn btn-danger sm" title="Approved" id="ApproveBtn"> <i class="fas fa-check-circle"></i> </a>
-                                                            <?php endif; ?>
+                                                            <a href="" class="btn btn-danger sm" title="Delete Data" id="delete"> <i class="fas fa-trash-alt"></i> </a>
                                                         </td>
                                                     </tr>
                                                 <?php endforeach; ?>
-                                            <?php endif; ?>
                                             </tbody>
                                         </table>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                         </div> <!-- end col -->

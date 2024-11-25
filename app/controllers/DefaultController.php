@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Services\ProductService;
+use Exception;
 
 class DefaultController
 {
@@ -47,6 +48,28 @@ class DefaultController
         }
 
         echo json_encode($allProducts);
+        exit;
+    }
+
+    public function getStock()
+    {
+        header('Content-Type: application/json');
+
+        $product_id = $_GET['product_id'] ?? '';
+
+        if (empty($product_id)) {
+            echo json_encode(['error' => 'Product ID is required']);
+            exit;
+        }
+
+        $result = $this->productservice->getStock($product_id);
+
+        if (empty($result)) {
+            echo json_encode(['stock' => 0]);
+            exit;
+        }
+
+        echo json_encode(['stock' => (int) $result[0]['quantity']]);
         exit;
     }
 }
