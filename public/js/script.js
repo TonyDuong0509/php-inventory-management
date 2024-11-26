@@ -227,7 +227,7 @@ $(document).ready(function () {
       product_name: product_name,
     };
     var html = tamplate(data);
-    $("#addRow").append(html);
+    $("#addRowInvoice").append(html);
   });
   $(document).on("click", ".removeeventmore", function (event) {
     $(this).closest(".delete_add_more_item").remove();

@@ -84,7 +84,7 @@
                                 </div> <!-- End card-body -->
                                 <!--  ---------------------------------- -->
                                 <div class="card-body">
-                                    <form method="POST" action="">
+                                    <form method="POST" action="<?php echo $router->generate('store.invoice'); ?>">
                                         <table class="table-sm table-bordered" width="100%" style="border-color: #ddd;">
                                             <thead>
                                                 <tr>
@@ -96,7 +96,7 @@
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
-                                            <tbody id="addRow" class="addRow">
+                                            <tbody id="addRowInvoice" class="addRow">
 
                                             </tbody>
                                             <tbody>

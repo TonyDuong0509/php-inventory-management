@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Repositories\PaymentRepository;
+
 class Invoice
 {
     private $id;
@@ -196,5 +198,11 @@ class Invoice
         $this->updated_at = $updated_at;
 
         return $this;
+    }
+
+    public function getPayment()
+    {
+        $paymentRepository = new PaymentRepository();
+        return $paymentRepository->getByInvoiceId($this->id);
     }
 }

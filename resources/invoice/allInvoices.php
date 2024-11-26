@@ -47,29 +47,31 @@
                                                     <th>Invoice No</th>
                                                     <th>Date</th>
                                                     <th>Description</th>
-                                                    <th>Action</th>
+                                                    <th>Amount</th>
                                             </thead>
                                             <tbody>
                                                 <?php $stt = 1; ?>
                                                 <?php foreach ($invoices as $invoice): ?>
                                                     <tr>
                                                         <td>
-
+                                                            <?php echo $stt++; ?>
                                                         </td>
                                                         <td>
-
+                                                            <a style="color: violet;" href="<?php echo $router->generate('edit.customer', ['id' => $invoice->getPayment()->getCustomer()->getId()]); ?>">
+                                                                <?php echo $invoice->getPayment()->getCustomer()->getName(); ?>
+                                                            </a>
                                                         </td>
                                                         <td>
-
+                                                            <?php echo $invoice->getInvoiceNo(); ?>
                                                         </td>
                                                         <td>
-
+                                                            <?php echo $invoice->getDate(); ?>
                                                         </td>
                                                         <td>
-
+                                                            <?php echo $invoice->getDescription(); ?>
                                                         </td>
                                                         <td>
-                                                            <a href="" class="btn btn-danger sm" title="Delete Data" id="delete"> <i class="fas fa-trash-alt"></i> </a>
+                                                            $<?php echo $invoice->getPayment()->getTotalAmount(); ?>
                                                         </td>
                                                     </tr>
                                                 <?php endforeach; ?>

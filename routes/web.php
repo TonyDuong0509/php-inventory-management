@@ -326,4 +326,10 @@ $router->map('GET', '/add-invoice', function () use ($serviceContainer) {
     $controller->invoiceAdd();
 }, 'add.invoice');
 
+$router->map('POST', '/store-invoice', function () use ($serviceContainer) {
+    Middleware::authMiddleware();
+    $controller = $serviceContainer->resolve(InvoiceController::class);
+    $controller->invoiceStore();
+}, 'store.invoice');
+
 $match = $router->match();

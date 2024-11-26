@@ -9,10 +9,8 @@ require_once ABSPATH . 'app/repositories/interfaces/CategoryRepositoryInterface.
 require_once ABSPATH . 'app/repositories/interfaces/ProductRepositoryInterface.php';
 require_once ABSPATH . 'app/repositories/interfaces/ProductRepositoryInterface.php';
 require_once ABSPATH . 'app/repositories/interfaces/InvoiceRepositoryInterface.php';
-require_once ABSPATH . 'app/repositories/interfaces/InvoiceDetailsRepositoryInterface.php';
 require_once ABSPATH . 'app/repositories/interfaces/PaymentRepositoryInterface.php';
 require_once ABSPATH . 'app/repositories/interfaces/PurchaseRepositoryInterface.php';
-require_once ABSPATH . 'app/repositories/interfaces/PaymentDetailsRepositoryInterface.php';
 
 
 // Models && Repositories
@@ -33,11 +31,9 @@ require_once ABSPATH . 'app/repositories/PurchaseRepository.php';
 require_once ABSPATH . 'app/models/Invoice.php';
 require_once ABSPATH . 'app/repositories/InvoiceRepository.php';
 require_once ABSPATH . 'app/models/InvoiceDetails.php';
-require_once ABSPATH . 'app/repositories/InvoiceDetailsRepository.php';
 require_once ABSPATH . 'app/models/Payment.php';
 require_once ABSPATH . 'app/repositories/PaymentRepository.php';
 require_once ABSPATH . 'app/models/PaymentDetails.php';
-require_once ABSPATH . 'app/repositories/PaymentDetailsRepository.php';
 
 require_once ABSPATH . 'container/ServiceContainer.php';
 
@@ -51,9 +47,7 @@ require_once ABSPATH . 'app/services/CategoryService.php';
 require_once ABSPATH . 'app/services/ProductService.php';
 require_once ABSPATH . 'app/services/PurchaseService.php';
 require_once ABSPATH . 'app/services/InvoiceService.php';
-require_once ABSPATH . 'app/services/InvoiceDetailsService.php';
 require_once ABSPATH . 'app/services/PaymentService.php';
-require_once ABSPATH . 'app/services/PaymentDetailsService.php';
 
 
 // Middlewares

@@ -12,4 +12,14 @@ class PaymentService
     {
         $this->paymentRepository = $paymentRepository;
     }
+
+    public function getAllPayments()
+    {
+        return $this->paymentRepository->fetchAll('*', null, 'id DESC');
+    }
+
+    public function getByInvoiceId($invoice_id)
+    {
+        return $this->paymentRepository->getByInvoiceId($invoice_id);
+    }
 }

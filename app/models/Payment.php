@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Repositories\CustomerRepository;
+
 class Payment
 {
     private $id;
@@ -217,5 +219,11 @@ class Payment
         $this->updated_at = $updated_at;
 
         return $this;
+    }
+
+    public function getCustomer()
+    {
+        $customerRepository = new CustomerRepository();
+        return $customerRepository->getById($this->customer_id);
     }
 }

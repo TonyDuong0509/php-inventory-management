@@ -22,4 +22,9 @@ class InvoiceService
     {
         return $this->invoiceRepository->fetchAll($fields, $condition, $orderBy);
     }
+
+    public function store($paramsInvoice, $categories, $customer_id, $paramsDetails, $paramsCustomer, $paramsPayment, $paramsPaymentDetails): bool
+    {
+        return $this->invoiceRepository->store($paramsInvoice, $categories, $customer_id, $paramsDetails, $paramsCustomer, $paramsPayment, $paramsPaymentDetails);
+    }
 }

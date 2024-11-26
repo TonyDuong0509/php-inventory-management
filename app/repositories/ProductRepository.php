@@ -155,10 +155,14 @@ class ProductRepository implements ProductRepositoryInterface
 
     public function getById($id): object|bool
     {
-        $products = [];
-        $condition = "id = '$id'";
-        $products = $this->fetchAll($condition, null);
-        return current($products);
+        try {
+            $products = [];
+            $condition = "id = '$id'";
+            $products = $this->fetchAll('*', $condition);
+            return current($products);
+        } catch (Exception $error) {
+            throw new Exception($error->getMessage());
+        }
     }
 
     public function update($product): object|bool
