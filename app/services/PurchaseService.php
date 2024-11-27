@@ -39,8 +39,8 @@ class PurchaseService
         return $this->purchaseRepository->getById($id);
     }
 
-    public function approveStatus(): bool
+    public function approveStatus($id): bool
     {
-        return $this->purchaseRepository->approveStatus();
+        return $this->purchaseRepository->approveStatus($id);
     }
 }

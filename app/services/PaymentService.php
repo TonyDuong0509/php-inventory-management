@@ -22,4 +22,9 @@ class PaymentService
     {
         return $this->paymentRepository->getByInvoiceId($invoice_id);
     }
+
+    public function storePayment($invoice_id, $customer_id, $paramsPayment, $paramsPaymentDetails)
+    {
+        return $this->paymentRepository->storePayment($invoice_id, $customer_id, $paramsPayment, $paramsPaymentDetails);
+    }
 }

@@ -332,4 +332,28 @@ $router->map('POST', '/store-invoice', function () use ($serviceContainer) {
     $controller->invoiceStore();
 }, 'store.invoice');
 
+$router->map('GET', '/invoice/pending-list', function () use ($serviceContainer) {
+    Middleware::authMiddleware();
+    $controller = $serviceContainer->resolve(InvoiceController::class);
+    $controller->invoicePendingList();
+}, 'pending.list.invoice');
+
+$router->map('GET', '/invoice/delete/[i:id]', function ($id) use ($serviceContainer) {
+    Middleware::authMiddleware();
+    $controller = $serviceContainer->resolve(InvoiceController::class);
+    $controller->invoiceDelete($id);
+}, 'delete.invoice');
+
+$router->map('GET', '/invoice/approve/[i:id]', function ($id) use ($serviceContainer) {
+    Middleware::authMiddleware();
+    $controller = $serviceContainer->resolve(InvoiceController::class);
+    $controller->invoiceApprove($id);
+}, 'approve.invoice');
+
+$router->map('POST', '/approval/store/[i:id]', function ($id) use ($serviceContainer) {
+    Middleware::authMiddleware();
+    $controller = $serviceContainer->resolve(InvoiceController::class);
+    $controller->approvalStore($id);
+}, 'approval.store');
+
 $match = $router->match();

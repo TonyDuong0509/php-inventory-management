@@ -105,13 +105,14 @@ class PurchaseRepository implements PurchaseRepositoryInterface
         }
     }
 
-    public function approveStatus(): bool
+    public function approveStatus($id): bool
     {
         try {
             global $mysqli;
 
             $sql = "UPDATE purchases
-                    SET status = '1'";
+                    SET status = '1'
+                    WHERE id = '$id'";
 
             if ($mysqli->query($sql) === true) return true;
         } catch (Exception $error) {

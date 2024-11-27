@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use App\Repositories\CategoryRepository;
+use App\Repositories\ProductRepository;
+
 class InvoiceDetails
 {
     private $id;
@@ -238,5 +241,17 @@ class InvoiceDetails
         $this->updated_at = $updated_at;
 
         return $this;
+    }
+
+    public function getCategory()
+    {
+        $categoryRepository = new CategoryRepository();
+        return $categoryRepository->getById($this->category_id);
+    }
+
+    public function getProduct()
+    {
+        $productRepository = new ProductRepository();
+        return $productRepository->getById($this->product_id);
     }
 }

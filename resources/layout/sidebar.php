@@ -98,6 +98,7 @@
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
                         <li><a href="/all-invoices">All Invoices</a></li>
+                        <li><a href="/invoice/pending-list">Approval Invoices</a></li>
                         <li><a href="/add-invoice">Add Invoice</a></li>
                     </ul>
                 </li>

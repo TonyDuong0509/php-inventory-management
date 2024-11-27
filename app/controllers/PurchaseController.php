@@ -146,7 +146,7 @@ class PurchaseController
         $product->setQuantity($purchase_qty);
 
         if ($this->productService->update($product)) {
-            $this->purchaseService->approveStatus();
+            $this->purchaseService->approveStatus($purchase->getId());
 
             $_SESSION['toastrNotify'] = [
                 'alert-type' => 'success',

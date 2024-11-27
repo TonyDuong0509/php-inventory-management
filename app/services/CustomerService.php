@@ -13,9 +13,9 @@ class CustomerService
         $this->customerRepository = $customerRepository;
     }
 
-    public function store($params): int
+    public function store($params, $customer_id = null): int
     {
-        return $this->customerRepository->store($params);
+        return $this->customerRepository->store($params, $customer_id);
     }
 
     public function getAllCustomers()

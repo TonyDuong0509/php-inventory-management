@@ -9,5 +9,5 @@ interface PurchaseRepositoryInterface
     public function getById($id): object|bool;
     // public function update($unit): object|bool;
     public function delete($id): bool;
-    public function approveStatus(): bool;
+    public function approveStatus($id): bool;
 }

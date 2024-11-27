@@ -8,16 +8,24 @@ use Exception;
 
 class CustomerRepository implements CustomerRepositoryInterface
 {
-    public function store($params): int
+    public function store($params, $customer_id = null): int
     {
         try {
             global $mysqli;
 
+            if ($customer_id) {
+                if ($customer_id === '0') {
+                    $customer_id = '0';
+                } else {
+                    return $customer_id;
+                }
+            }
+
             $name = $params['name'];
-            $customer_image = $params['customer_image'];
+            $customer_image = $params['customer_image'] ?? '';
             $mobile_no = $params['mobile_no'];
             $email = $params['email'];
-            $address = $params['address'];
+            $address = $params['address'] ?? '';
             $created_by = $params['created_by'];
             $updated_by = $params['updated_by'];
             $created_at = $params['created_at'];
