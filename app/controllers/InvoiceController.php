@@ -283,4 +283,38 @@ class InvoiceController
         header("Location: /invoice/pending-list");
         exit;
     }
+
+    public function invoicePrintList()
+    {
+        $invoices = $this->invoiceService->getAllInvoices();
+
+        require ABSPATH . 'resources/invoice/printInvoiceList.php';
+    }
+
+    public function invoicePrint($id)
+    {
+        $invoice = $this->invoiceService->getById($id);
+        if (!$invoice) {
+            $_SESSION['toastrNotify'] = [
+                'alert-type' => 'error',
+                'message' => 'Invoice is not exist, please try again'
+            ];
+            header("Location: /print/invoice-list");
+            exit;
+        }
+
+        $invoicesDetails = $this->invoiceService->getAllInvoicesDetailsByInvoiceId($id);
+
+        require ABSPATH . 'resources/invoice/pdfInvoice.php';
+    }
+
+    public function downloadFile()
+    {
+        $random = bin2hex(random_bytes(4));
+        $file = "/public/downloads/$random.pdf";
+        header('Content-Type: application/pdf');
+        header('Content-Disposition: attachment; filename="' . basename($file) . '"');
+        readfile($file);
+        exit;
+    }
 }

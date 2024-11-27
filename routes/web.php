@@ -356,4 +356,22 @@ $router->map('POST', '/approval/store/[i:id]', function ($id) use ($serviceConta
     $controller->approvalStore($id);
 }, 'approval.store');
 
+$router->map('GET', '/print/invoice-list', function () use ($serviceContainer) {
+    Middleware::authMiddleware();
+    $controller = $serviceContainer->resolve(InvoiceController::class);
+    $controller->invoicePrintList();
+}, 'print.invoice.list');
+
+$router->map('GET', '/print/invoice/[i:id]', function ($id) use ($serviceContainer) {
+    Middleware::authMiddleware();
+    $controller = $serviceContainer->resolve(InvoiceController::class);
+    $controller->invoicePrint($id);
+}, 'print.invoice');
+
+$router->map('GET', '/download-file', function () use ($serviceContainer) {
+    Middleware::authMiddleware();
+    $controller = $serviceContainer->resolve(InvoiceController::class);
+    $controller->downloadFile();
+}, 'download.file');
+
 $match = $router->match();
