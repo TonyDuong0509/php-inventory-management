@@ -374,4 +374,16 @@ $router->map('GET', '/download-file', function () use ($serviceContainer) {
     $controller->downloadFile();
 }, 'download.file');
 
+$router->map('GET', '/invoice/daily-report', function () use ($serviceContainer) {
+    Middleware::authMiddleware();
+    $controller = $serviceContainer->resolve(InvoiceController::class);
+    $controller->invoiceDailyReport();
+}, 'invoice.daily.report');
+
+$router->map('GET', '/invoice/daily-pdf', function () use ($serviceContainer) {
+    Middleware::authMiddleware();
+    $controller = $serviceContainer->resolve(InvoiceController::class);
+    $controller->invoiceDailyPDF();
+}, 'invoice.daily.pdf');
+
 $match = $router->match();

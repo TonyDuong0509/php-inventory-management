@@ -317,4 +317,22 @@ class InvoiceController
         readfile($file);
         exit;
     }
+
+    public function invoiceDailyReport()
+    {
+        require ABSPATH . 'resources/invoice/dailyReportInvoice.php';
+    }
+
+    public function invoiceDailyPDF()
+    {
+        $sdate = date('Y-m-d', strtotime($_GET['start_date']));
+        $edate = date('Y-m-d', strtotime($_GET['end_date']));
+        $invoices = $this->invoiceService->getDailyReport($sdate, $edate);
+
+
+        $start_date = date('Y-m-d', strtotime($_GET['start_date']));
+        $end_date = date('Y-m-d', strtotime($_GET['end_date']));
+
+        require ABSPATH . 'resources/invoice/dailyPDFInvoice.php';
+    }
 }

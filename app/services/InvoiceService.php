@@ -61,6 +61,12 @@ class InvoiceService
         return $this->invoiceRepository->fetchAllInvoicesDetails('*', $condition, null);
     }
 
+    public function getDailyReport($start_date, $end_date)
+    {
+        $condition = "status = 1 AND date BETWEEN '$start_date' AND '$end_date'";
+        return $this->invoiceRepository->fetchAll('*', $condition);
+    }
+
     public function getInvoiceDetailsById($id)
     {
         return $this->invoiceRepository->getInvoiceDetailsById($id);

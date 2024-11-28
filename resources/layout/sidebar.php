@@ -8,7 +8,7 @@
                 <img src="<?php ABSPATH ?>/public/images/users/avatar-1.jpg" alt="" class="avatar-md rounded-circle">
             </div>
             <div class="mt-3">
-                <h4 class="font-size-16 mb-1">Julia Hudda</h4>
+                <h4 class="font-size-16 mb-1"><?php echo $_SESSION['user']['fullName'] ?? ''; ?></h4>
                 <span class="text-muted"><i class="ri-record-circle-line align-middle font-size-14 text-success"></i> Online</span>
             </div>
         </div>
@@ -100,6 +100,7 @@
                         <li><a href="/all-invoices">All Invoices</a></li>
                         <li><a href="/invoice/pending-list">Approval Invoices</a></li>
                         <li><a href="/print/invoice-list">Print Invoice List</a></li>
+                        <li><a href="/invoice/daily-report">Invoice Daily Report</a></li>
                         <li><a href="/add-invoice">Add Invoice</a></li>
                     </ul>
                 </li>
