@@ -313,6 +313,18 @@ $router->map('GET', '/approve-status-purchase/[i:id]', function ($id) use ($serv
     $controller->purchaseApprove($id);
 }, 'approve.status.purchase');
 
+$router->map('GET', '/daily/purchase/report', function () use ($serviceContainer) {
+    Middleware::authMiddleware();
+    $controller = $serviceContainer->resolve(PurchaseController::class);
+    $controller->dailyPurchaseReport();
+}, 'daily.purchase.report');
+
+$router->map('GET', '/daily/purchase/report/PDF', function () use ($serviceContainer) {
+    Middleware::authMiddleware();
+    $controller = $serviceContainer->resolve(PurchaseController::class);
+    $controller->dailyPurchaseReportPDF();
+}, 'daily.purchase.report.pdf');
+
 
 // Invoice routes
 $router->map('GET', '/all-invoices', function () use ($serviceContainer) {

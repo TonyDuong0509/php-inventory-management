@@ -87,6 +87,7 @@
                     <ul class="sub-menu" aria-expanded="false">
                         <li><a href="/all-purchases">All Purchases</a></li>
                         <li><a href="/pending-purchase">Approval Purchases</a></li>
+                        <li><a href="/daily/purchase/report">Daily Purchase Report</a></li>
                         <li><a href="/add-purchase">Add Purchase</a></li>
                     </ul>
                 </li>

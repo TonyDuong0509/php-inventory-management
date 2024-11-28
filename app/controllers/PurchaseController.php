@@ -156,4 +156,22 @@ class PurchaseController
             exit;
         }
     }
+
+    public function dailyPurchaseReport()
+    {
+        require ABSPATH . 'resources/purchase/dailyPurchaseReport.php';
+    }
+
+    public function dailyPurchaseReportPDF()
+    {
+        $sdate = date('Y-m-d', strtotime($_GET['start_date']));
+        $edate = date('Y-m-d', strtotime($_GET['end_date']));
+
+        $purchases = $this->purchaseService->dailyPurchaseReport($sdate, $edate);
+
+        $start_date = date('Y-m-d', strtotime($_GET['start_date']));
+        $end_date = date('Y-m-d', strtotime($_GET['end_date']));
+
+        require ABSPATH . 'resources/purchase/dailyPurchaseReportPDF.php';
+    }
 }

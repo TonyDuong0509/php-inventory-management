@@ -49,4 +49,10 @@ class PurchaseService
         $condition = "category_id = $category_id AND product_id = $product_id AND status = 1";
         return $this->purchaseRepository->fetchAll($condition, null, 'SUM(buying_qty)');
     }
+
+    public function dailyPurchaseReport($start_date, $end_date)
+    {
+        $condition = "status = '1' AND date BETWEEN '$start_date' AND '$end_date'";
+        return $this->purchaseRepository->fetchAll($condition, null);
+    }
 }
