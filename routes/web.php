@@ -7,6 +7,7 @@ use App\Controllers\DefaultController;
 use App\Controllers\InvoiceController;
 use App\Controllers\ProductController;
 use App\Controllers\PurchaseController;
+use App\Controllers\StockController;
 use App\Controllers\SupplierController;
 use App\Controllers\UnitController;
 use App\Controllers\UserController;
@@ -385,5 +386,19 @@ $router->map('GET', '/invoice/daily-pdf', function () use ($serviceContainer) {
     $controller = $serviceContainer->resolve(InvoiceController::class);
     $controller->invoiceDailyPDF();
 }, 'invoice.daily.pdf');
+
+
+// Stock routes
+$router->map('GET', '/stock/report', function () use ($serviceContainer) {
+    Middleware::authMiddleware();
+    $controller = $serviceContainer->resolve(StockController::class);
+    $controller->stockReport();
+}, 'stock.report');
+
+$router->map('GET', '/stock/report-pdf', function () use ($serviceContainer) {
+    Middleware::authMiddleware();
+    $controller = $serviceContainer->resolve(StockController::class);
+    $controller->stockReportPDF();
+}, 'stock.report.pdf');
 
 $match = $router->match();

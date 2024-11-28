@@ -54,4 +54,10 @@ class ProductService
     {
         return $this->productRepository->selectCategoryWhereSupplier($supplier_id, 'category_id DESC');
     }
+
+    public function getStockReport()
+    {
+        $orderBy = "supplier_id ASC, category_id ASC";
+        return $this->productRepository->fetchAll('*', null, $orderBy);
+    }
 }
