@@ -49,6 +49,8 @@
                                                     <th>Unit</th>
                                                     <th>Category</th>
                                                     <th>Product Name</th>
+                                                    <th>In Quantity</th>
+                                                    <th>Out Quantity</th>
                                                     <th>Stock </th>
 
                                             </thead>
@@ -71,7 +73,19 @@
                                                             <?php echo $product->getName(); ?>
                                                         </td>
                                                         <td>
-                                                            <?php echo $product->getQuantity(); ?>
+                                                            <span class="btn btn-success">
+                                                                <?php echo $buying_totals[$product->getId()] ?? 0; ?>
+                                                            </span>
+                                                        </td>
+                                                        <td>
+                                                            <span class="btn btn-info">
+                                                                <?php echo $selling_totals[$product->getId()] ?? 0; ?>
+                                                            </span>
+                                                        </td>
+                                                        <td>
+                                                            <span class="btn btn-danger">
+                                                                <?php echo $product->getQuantity(); ?>
+                                                            </span>
                                                         </td>
                                                     </tr>
                                                 <?php endforeach; ?>

@@ -25,11 +25,11 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                <h4 class="mb-sm-0">Stock Report</h4>
+                                <h4 class="mb-sm-0">Supplier Wise Stock Report</h4>
                                 <div class="page-title-right">
                                     <ol class="breadcrumb m-0">
                                         <li class="breadcrumb-item"><a href="javascript: void(0);"> </a></li>
-                                        <li class="breadcrumb-item active">Stock Report</li>
+                                        <li class="breadcrumb-item active"><a href="/supplier/product/wise-report">Supplier Wise Stock Report</a></li>
                                     </ol>
                                 </div>
                             </div>
@@ -44,7 +44,6 @@
                                     <div class="row">
                                         <div class="col-12">
                                             <div class="invoice-title">
-
                                                 <h3>
                                                     <img src="<?php ABSPATH ?>/public/images/logo-sm.png" alt="logo" height="24" /> Easy Shopping Mall
                                                 </h3>
@@ -72,9 +71,7 @@
                                         <div class="col-12">
                                             <div>
                                                 <div class="p-2">
-
                                                 </div>
-
                                             </div>
                                         </div>
                                     </div> <!-- end row -->
@@ -82,22 +79,26 @@
                                         <div class="col-12">
                                             <div>
                                                 <div class="p-2">
-
                                                 </div>
                                                 <div class="">
                                                     <div class="table-responsive">
-                                                        <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                                        <h3 class="text-center"><strong>Supplier Name: <?php echo $products[0]->getSupplier()->getName();                                                                                                        ?></strong> </h3>
+                                                        <table class="table">
                                                             <thead>
                                                                 <tr>
-                                                                    <th>No.</th>
-                                                                    <th>Supplier Name </th>
-                                                                    <th>Unit</th>
-                                                                    <th>Category</th>
-                                                                    <th>Product Name</th>
-                                                                    <th>In Quantity</th>
-                                                                    <th>Out Quantity</th>
-                                                                    <th>Stock </th>
+                                                                    <td><strong>No. </strong></td>
+                                                                    <td class="text-center"><strong>Supplier Name </strong></td>
+                                                                    <td class="text-center"><strong>Unit </strong>
+                                                                    </td>
+                                                                    <td class="text-center"><strong>Category</strong>
+                                                                    </td>
+                                                                    <td class="text-center"><strong>Product Name</strong>
+                                                                    </td>
+                                                                    <td class="text-center"><strong>Stock </strong>
+                                                                    </td>
 
+
+                                                                </tr>
                                                             </thead>
                                                             <tbody>
                                                                 <?php foreach ($products as $key => $product): ?>
@@ -118,25 +119,14 @@
                                                                             <?php echo $product->getName(); ?>
                                                                         </td>
                                                                         <td>
-                                                                            <span class="btn btn-success">
-                                                                                <?php echo $buying_totals[$product->getId()] ?? 0; ?>
-                                                                            </span>
-                                                                        </td>
-                                                                        <td>
-                                                                            <span class="btn btn-info">
-                                                                                <?php echo $selling_totals[$product->getId()] ?? 0; ?>
-                                                                            </span>
-                                                                        </td>
-                                                                        <td>
-                                                                            <span class="btn btn-danger">
-                                                                                <?php echo $product->getQuantity(); ?>
-                                                                            </span>
+                                                                            <?php echo $product->getQuantity(); ?>
                                                                         </td>
                                                                     </tr>
                                                                 <?php endforeach; ?>
                                                             </tbody>
                                                         </table>
                                                     </div>
+
                                                     <i>Printing Time: <?php echo $date; ?></i>
                                                     <div class="d-print-none">
                                                         <div class="float-end">

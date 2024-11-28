@@ -8,13 +8,13 @@ use Exception;
 
 class PurchaseRepository implements PurchaseRepositoryInterface
 {
-    public function fetchAll($condition = null, $orderBy = null): array
+    public function fetchAll($condition = null, $orderBy = null, $fields = "*"): array|int
     {
         try {
             global $mysqli;
 
             $purchases = [];
-            $sql = "SELECT * FROM purchases";
+            $sql = "SELECT $fields FROM purchases";
             if ($condition) {
                 $sql .= " WHERE $condition";
             }
@@ -23,6 +23,12 @@ class PurchaseRepository implements PurchaseRepositoryInterface
             }
 
             $result = $mysqli->query($sql);
+
+            if ($fields !== '*' && strpos($fields, 'SUM(') !== false) {
+                $row = $result->fetch_assoc();
+                return $row[array_key_first($row)] ?? 0;
+            }
+
             if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
                     $purchase = new Purchase(

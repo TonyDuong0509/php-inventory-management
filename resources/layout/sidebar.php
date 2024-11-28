@@ -112,6 +112,7 @@
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
                         <li><a href="/stock/report">Stock Report</a></li>
+                        <li><a href="/supplier/product/wise-report">Supplier / Product Wise</a></li>
                     </ul>
                 </li>
             </ul>

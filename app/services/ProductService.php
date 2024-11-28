@@ -60,4 +60,17 @@ class ProductService
         $orderBy = "supplier_id ASC, category_id ASC";
         return $this->productRepository->fetchAll('*', null, $orderBy);
     }
+
+    public function getSupplierWise($supplier_id)
+    {
+        $condition = "supplier_id = '$supplier_id'";
+        $orderBy = "supplier_id ASC, category_id ASC";
+        return $this->productRepository->fetchAll('*', $condition, $orderBy);
+    }
+
+    public function getProductWise($category_id, $id)
+    {
+        $condition = "category_id = '$category_id' AND id = '$id' LIMIT 1";
+        return $this->productRepository->fetchAll('*', $condition, null);
+    }
 }

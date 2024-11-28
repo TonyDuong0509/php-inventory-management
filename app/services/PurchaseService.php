@@ -43,4 +43,10 @@ class PurchaseService
     {
         return $this->purchaseRepository->approveStatus($id);
     }
+
+    public function totalBuying($category_id, $product_id)
+    {
+        $condition = "category_id = $category_id AND product_id = $product_id AND status = 1";
+        return $this->purchaseRepository->fetchAll($condition, null, 'SUM(buying_qty)');
+    }
 }

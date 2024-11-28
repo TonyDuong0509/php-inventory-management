@@ -401,4 +401,22 @@ $router->map('GET', '/stock/report-pdf', function () use ($serviceContainer) {
     $controller->stockReportPDF();
 }, 'stock.report.pdf');
 
+$router->map('GET', '/supplier/product/wise-report', function () use ($serviceContainer) {
+    Middleware::authMiddleware();
+    $controller = $serviceContainer->resolve(StockController::class);
+    $controller->stockSupplierWise();
+}, 'supplier.product.wise.report');
+
+$router->map('GET', '/supplier/wise-pdf', function () use ($serviceContainer) {
+    Middleware::authMiddleware();
+    $controller = $serviceContainer->resolve(StockController::class);
+    $controller->supplierWisePDF();
+}, 'supplier.wise.pdf');
+
+$router->map('GET', '/product/wise-pdf', function () use ($serviceContainer) {
+    Middleware::authMiddleware();
+    $controller = $serviceContainer->resolve(StockController::class);
+    $controller->productWisePDF();
+}, 'product.wise.pdf');
+
 $match = $router->match();

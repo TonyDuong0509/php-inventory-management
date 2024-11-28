@@ -118,7 +118,7 @@ class InvoiceRepository implements InvoiceRepositoryInterface
         }
     }
 
-    public function fetchAllInvoicesDetails($fields = '*', $condition = null, $orderBy = null): array
+    public function fetchAllInvoicesDetails($fields = '*', $condition = null, $orderBy = null): array|int
     {
         try {
             global $mysqli;
@@ -133,6 +133,12 @@ class InvoiceRepository implements InvoiceRepositoryInterface
             }
 
             $result = $mysqli->query($sql);
+
+            if ($fields !== '*' && strpos($fields, 'SUM(') !== false) {
+                $row = $result->fetch_assoc();
+                return $row[array_key_first($row)] ?? 0;
+            }
+
             if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
                     $invoiceDetails = new InvoiceDetails(
@@ -185,6 +191,23 @@ class InvoiceRepository implements InvoiceRepositoryInterface
             $condition = "id = '$id' LIMIT 1";
             $invoice_details = $this->fetchAllInvoicesDetails('*', $condition);
             return current($invoice_details);
+        } catch (Exception $error) {
+            throw new Exception($error->getMessage());
+        }
+    }
+
+    public function updateStatusInvoiceDetails($invoice_details): object|bool
+    {
+        try {
+            global $mysqli;
+
+            $id = $invoice_details->getId();
+            $status = $invoice_details->getStatus();
+            $sql = "UPDATE invoice_details
+                    SET status = '$status'
+                    WHERE id = '$id'";
+
+            if ($mysqli->query($sql) === true) return true;
         } catch (Exception $error) {
             throw new Exception($error->getMessage());
         }

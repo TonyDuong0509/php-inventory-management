@@ -10,6 +10,6 @@ interface InvoiceRepositoryInterface
     public function delete($id): bool;
     public function getById($id): object|bool;
     public function getInvoiceDetailsById($id): object|bool;
-    public function fetchAllInvoicesDetails($fields = '*', $condition = null, $orderBy = null): array;
+    public function fetchAllInvoicesDetails($fields = '*', $condition = null, $orderBy = null): array|int;
     public function update($invoice): object|bool;
 }

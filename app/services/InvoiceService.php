@@ -76,4 +76,15 @@ class InvoiceService
     {
         return $this->invoiceRepository->update($invoice);
     }
+
+    public function updateStatusInvoiceDetails($invoice_details)
+    {
+        return $this->invoiceRepository->updateStatusInvoiceDetails($invoice_details);
+    }
+
+    public function totalSelling($category_id, $product_id)
+    {
+        $condition = "category_id = $category_id AND product_id = $product_id AND status = '1'";
+        return $this->invoiceRepository->fetchAllInvoicesDetails('SUM(selling_qty)', $condition);
+    }
 }

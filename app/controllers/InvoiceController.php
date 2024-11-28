@@ -269,6 +269,8 @@ class InvoiceController
 
         foreach ($_POST['selling_qty'] as $key => $val) {
             $invoice_details = $this->invoiceService->getInvoiceDetailsById($key);
+            $invoice_details->setStatus('1');
+            $this->invoiceService->updateStatusInvoiceDetails($invoice_details);
             $product = $this->productService->getById($invoice_details->getProductId());
             $product->setQuantity(((float)$product->getQuantity()) - (float)$_POST['selling_qty'][$key]);
             $this->productService->update($product);
