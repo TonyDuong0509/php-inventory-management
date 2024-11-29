@@ -173,6 +173,42 @@ $router->map('POST', '/customer/update/invoice/[i:invoice_id]', function ($invoi
     $controller->customerUpdateInvoice($invoice_id);
 }, 'customer.update.invoice');
 
+$router->map('GET', '/customer/invoice/details/[i:invoice_id]', function ($invoice_id) use ($serviceContainer) {
+    Middleware::authMiddleware();
+    $controller = $serviceContainer->resolve(CustomerController::class);
+    $controller->customerInvoiceDetails($invoice_id);
+}, 'customer.invoice.details');
+
+$router->map('GET', '/paid/customer', function () use ($serviceContainer) {
+    Middleware::authMiddleware();
+    $controller = $serviceContainer->resolve(CustomerController::class);
+    $controller->paidCustomer();
+}, 'paid.customer');
+
+$router->map('GET', '/paid/customer/print/pdf', function () use ($serviceContainer) {
+    Middleware::authMiddleware();
+    $controller = $serviceContainer->resolve(CustomerController::class);
+    $controller->paidCustomerPrintPDF();
+}, 'paid.customer.print.pdf');
+
+$router->map('GET', '/customer/wise/report', function () use ($serviceContainer) {
+    Middleware::authMiddleware();
+    $controller = $serviceContainer->resolve(CustomerController::class);
+    $controller->customerWiseReport();
+}, 'customer.wise.report');
+
+$router->map('GET', '/customer/wise/credit/report', function () use ($serviceContainer) {
+    Middleware::authMiddleware();
+    $controller = $serviceContainer->resolve(CustomerController::class);
+    $controller->customerWiseCreditReport();
+}, 'customer.wise.credit.report');
+
+$router->map('GET', '/customer/wise/paid/report', function () use ($serviceContainer) {
+    Middleware::authMiddleware();
+    $controller = $serviceContainer->resolve(CustomerController::class);
+    $controller->customerWisePaidReport();
+}, 'customer.wise.paid.report');
+
 
 // Unit routes
 $router->map('GET', '/all-units', function () use ($serviceContainer) {

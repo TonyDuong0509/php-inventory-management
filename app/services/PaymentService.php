@@ -48,4 +48,22 @@ class PaymentService
     {
         return $this->paymentRepository->updatePaymentDetails($paymentDetails);
     }
+
+    public function getPaidCustomer()
+    {
+        $condition = "paid_status != 'full_due'";
+        return $this->paymentRepository->fetchAll('*', $condition);
+    }
+
+    public function getAllPaymentsCustomerCreditReport($customer_id)
+    {
+        $condition = "customer_id = '$customer_id' AND paid_status IN ('full_due', 'partial_due')";
+        return $this->paymentRepository->fetchAll('*', $condition, null);
+    }
+
+    public function getAllPaymentsCustomerPaidReport($customer_id)
+    {
+        $condition = "customer_id = '$customer_id' AND paid_status != 'full_due'";
+        return $this->paymentRepository->fetchAll('*', $condition);
+    }
 }

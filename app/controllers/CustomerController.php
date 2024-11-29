@@ -280,4 +280,48 @@ class CustomerController
             exit;
         }
     }
+
+    public function customerInvoiceDetails($invoice_id)
+    {
+        $payment = $this->paymentService->getByInvoiceId($invoice_id);
+        $invoices_details = $this->invoiceService->getAllInvoicesDetailsByInvoiceId($payment->getInvoiceId());
+        $payment_details = $this->paymentService->getPaymentDetailsByInvoiceId($payment->getInvoiceId());
+
+        require ABSPATH . 'resources/customer/customerInvoiceDetails.php';
+    }
+
+    public function paidCustomer()
+    {
+        $payments = $this->paymentService->getPaidCustomer();
+        require ABSPATH . 'resources/customer/paidCustomer.php';
+    }
+
+    public function paidCustomerPrintPDF()
+    {
+        $payments = $this->paymentService->getPaidCustomer();
+        $date = getDateTime();
+        require ABSPATH . 'resources/customer/paidCustomerPrintPDF.php';
+    }
+
+    public function customerWiseReport()
+    {
+        $customers = $this->customerService->getAllCustomers();
+        require ABSPATH . 'resources/customer/customerWiseReport.php';
+    }
+
+    public function customerWiseCreditReport()
+    {
+        $customer_id = $_GET['customer_id'];
+        $payments = $this->paymentService->getAllPaymentsCustomerCreditReport($customer_id);
+        $date = getDateTime();
+        require ABSPATH . 'resources/customer/customerWiseCreditPDF.php';
+    }
+
+    public function customerWisePaidReport()
+    {
+        $customer_id = $_GET['customer_id'];
+        $payments = $this->paymentService->getAllPaymentsCustomerPaidReport($customer_id);
+        $date = getDateTime();
+        require ABSPATH . 'resources/customer/customerWisePaidPDF.php';
+    }
 }
