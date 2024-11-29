@@ -149,6 +149,30 @@ $router->map('GET', '/delete-customer/[i:id]', function ($id) use ($serviceConta
     $controller->customerDelete($id);
 }, 'delete.customer');
 
+$router->map('GET', '/credit/customer', function () use ($serviceContainer) {
+    Middleware::authMiddleware();
+    $controller = $serviceContainer->resolve(CustomerController::class);
+    $controller->creditCustomer();
+}, 'credit.customer');
+
+$router->map('GET', '/credit/customer/print/pdf', function () use ($serviceContainer) {
+    Middleware::authMiddleware();
+    $controller = $serviceContainer->resolve(CustomerController::class);
+    $controller->creditCustomerPrintPDF();
+}, 'credit.customer.print.pdf');
+
+$router->map('GET', '/customer/edit/invoice/[i:invoice_id]', function ($invoice_id) use ($serviceContainer) {
+    Middleware::authMiddleware();
+    $controller = $serviceContainer->resolve(CustomerController::class);
+    $controller->customerEditInvoice($invoice_id);
+}, 'customer.edit.invoice');
+
+$router->map('POST', '/customer/update/invoice/[i:invoice_id]', function ($invoice_id) use ($serviceContainer) {
+    Middleware::authMiddleware();
+    $controller = $serviceContainer->resolve(CustomerController::class);
+    $controller->customerUpdateInvoice($invoice_id);
+}, 'customer.update.invoice');
+
 
 // Unit routes
 $router->map('GET', '/all-units', function () use ($serviceContainer) {

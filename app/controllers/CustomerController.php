@@ -3,6 +3,8 @@
 namespace App\Controllers;
 
 use App\Services\CustomerService;
+use App\Services\InvoiceService;
+use App\Services\PaymentService;
 use App\Services\UserService;
 
 use function Utils\Functions\getDateTime;
@@ -12,13 +14,19 @@ class CustomerController
 {
     private $customerService;
     private $userService;
+    private $paymentService;
+    private $invoiceService;
 
     public function __construct(
         CustomerService $customerService,
-        UserService $userService
+        UserService $userService,
+        PaymentService $paymentService,
+        InvoiceService $invoiceService,
     ) {
         $this->customerService = $customerService;
         $this->userService = $userService;
+        $this->paymentService = $paymentService;
+        $this->invoiceService = $invoiceService;
     }
 
     public function customersAll()
@@ -206,5 +214,70 @@ class CustomerController
         ];
         header("Location: /all-customers");
         exit;
+    }
+
+    public function creditCustomer()
+    {
+        $payments = $this->paymentService->getAllPaymentsWithStatus();
+
+        require ABSPATH . 'resources/customer/creditCustomer.php';
+    }
+
+    public function creditCustomerPrintPDF()
+    {
+        $payments = $this->paymentService->getAllPaymentsWithStatus();
+        $date = getDateTime();
+
+        require ABSPATH . 'resources/customer/creditCustomerPrintPDF.php';
+    }
+
+    public function customerEditInvoice($invoice_id)
+    {
+        $payment = $this->paymentService->getByInvoiceId($invoice_id);
+        $invoices_details = $this->invoiceService->getAllInvoicesDetailsByInvoiceId($payment->getInvoiceId());
+
+        require ABSPATH . 'resources/customer/editCustomerInvoice.php';
+    }
+
+    public function customerUpdateInvoice($invoice_id)
+    {
+        $userId = $_SESSION['user']['id'];
+        $user = $this->userService->getById($userId);
+
+        if ($_POST['new_paid_amount'] < $_POST['paid_amount']) {
+            $_SESSION['toastrNotify'] = [
+                'alert-type' => 'error',
+                'message' => 'Sorry you paid maximum value'
+            ];
+            header("Location: " . $_SERVER['HTTP_REFERER']);
+            exit;
+        } else {
+            $payment = $this->paymentService->getByInvoiceId($invoice_id);
+            $payment_details = $this->paymentService->getPaymentDetailsByInvoiceId($invoice_id);
+            $payment->setPaidStatus($_POST['paid_status']);
+
+            if ($_POST['paid_status'] === 'full_paid') {
+                $payment->setPaidAmount($payment->getPaidAmount() + $_POST['new_paid_amount']);
+                $payment->setDueAmount(0);
+                $payment_details->setCurrentPaidAmount($_POST['new_paid_amount']);
+            } elseif ($_POST['paid_status'] === 'partial_paid') {
+                $payment->setPaidAmount($payment->getPaidAmount() + $_POST['paid_amount']);
+                $payment->setDueAmount($payment->getDueAmount() + $_POST['paid_amount']);
+                $payment_details->setCurrentPaidAmount($_POST['paid_amount']);
+            }
+
+            $this->paymentService->update($payment);
+            $payment_details->setInvoiceId($invoice_id);
+            $payment_details->setDate(date('Y-m-d', strtotime($_POST['date'])));
+            $payment_details->setUpdatedBy($user->getId());
+            $this->paymentService->updatePaymentDetails($payment_details);
+
+            $_SESSION['toastrNotify'] = [
+                'alert-type' => 'success',
+                'message' => 'Invoice Update successfully'
+            ];
+            header("Location: /credit/customer");
+            exit;
+        }
     }
 }

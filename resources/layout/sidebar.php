@@ -42,6 +42,7 @@
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
                         <li><a href="/all-customers">All Customers</a></li>
+                        <li><a href="/credit/customer">Credit Customers</a></li>
                         <li><a href="/add-customer">Add Customer</a></li>
                     </ul>
                 </li>

@@ -23,8 +23,29 @@ class PaymentService
         return $this->paymentRepository->getByInvoiceId($invoice_id);
     }
 
+    public function getPaymentDetailsByInvoiceId($invoice_id)
+    {
+        return $this->paymentRepository->getPaymentDetailsByInvoiceId($invoice_id);
+    }
+
     public function storePayment($invoice_id, $customer_id, $paramsPayment, $paramsPaymentDetails)
     {
         return $this->paymentRepository->storePayment($invoice_id, $customer_id, $paramsPayment, $paramsPaymentDetails);
+    }
+
+    public function getAllPaymentsWithStatus()
+    {
+        $condition = "paid_status IN ('full_due', 'partial_paid')";
+        return $this->paymentRepository->fetchAll('*', $condition, null);
+    }
+
+    public function update($payment): object|bool
+    {
+        return $this->paymentRepository->update($payment);
+    }
+
+    public function updatePaymentDetails($paymentDetails): object|bool
+    {
+        return $this->paymentRepository->updatePaymentDetails($paymentDetails);
     }
 }

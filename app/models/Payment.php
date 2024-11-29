@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Repositories\CustomerRepository;
+use App\Repositories\InvoiceRepository;
 
 class Payment
 {
@@ -225,5 +226,11 @@ class Payment
     {
         $customerRepository = new CustomerRepository();
         return $customerRepository->getById($this->customer_id);
+    }
+
+    public function getInvoice()
+    {
+        $invoiceRepository = new InvoiceRepository();
+        return $invoiceRepository->getById($this->invoice_id);
     }
 }
