@@ -12,8 +12,10 @@ class User
     private $role;
     private $created_at;
     private $updated_at;
+    private $status;
+    private $avatar;
 
-    public function __construct($id, $fullName, $email, $password, $phone, $role, $created_at, $updated_at)
+    public function __construct($id, $fullName, $email, $password, $phone, $role, $created_at, $updated_at, $status, $avatar)
     {
         $this->id = $id;
         $this->fullName = $fullName;
@@ -23,6 +25,8 @@ class User
         $this->role = $role;
         $this->created_at = $created_at;
         $this->updated_at = $updated_at;
+        $this->status = $status;
+        $this->avatar = $avatar;
     }
 
     /**
@@ -165,6 +169,42 @@ class User
     public function setUpdatedAt($updated_at): self
     {
         $this->updated_at = $updated_at;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of status
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * Set the value of status
+     */
+    public function setStatus($status): self
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of avatar
+     */
+    public function getAvatar()
+    {
+        return $this->avatar;
+    }
+
+    /**
+     * Set the value of avatar
+     */
+    public function setAvatar($avatar): self
+    {
+        $this->avatar = $avatar;
 
         return $this;
     }

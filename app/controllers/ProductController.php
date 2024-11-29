@@ -34,6 +34,8 @@ class ProductController
 
     public function productsAll()
     {
+        $userId = $_SESSION['user']['id'];
+        $user = $this->userService->getById($userId);
         $products = $this->productService->getAllproducts();
 
         require ABSPATH . 'resources/product/allProducts.php';
@@ -41,6 +43,8 @@ class ProductController
 
     public function productAdd()
     {
+        $userId = $_SESSION['user']['id'];
+        $user = $this->userService->getById($userId);
         $suppliers = $this->supplierService->getAllSuppliers();
         $units = $this->unitService->getAllUnits();
         $categories = $this->categoryService->getAllCategories();
@@ -115,6 +119,8 @@ class ProductController
 
     public function productEdit($id)
     {
+        $userId = $_SESSION['user']['id'];
+        $user = $this->userService->getById($userId);
         $product = $this->productService->getById($id);
         $suppliers = $this->supplierService->getAllSuppliers();
         $units = $this->unitService->getAllUnits();
@@ -174,6 +180,8 @@ class ProductController
 
     public function productDelete($id)
     {
+        $userId = $_SESSION['user']['id'];
+        $user = $this->userService->getById($userId);
         $product = $this->productService->getById($id);
 
         if (!$product) {

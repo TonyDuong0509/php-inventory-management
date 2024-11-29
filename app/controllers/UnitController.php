@@ -22,6 +22,8 @@ class UnitController
 
     public function unitsAll()
     {
+        $userId = $_SESSION['user']['id'];
+        $user = $this->userService->getById($userId);
         $units = $this->unitService->getAllUnits();
 
         require ABSPATH . 'resources/unit/allUnits.php';
@@ -29,6 +31,8 @@ class UnitController
 
     public function unitAdd()
     {
+        $userId = $_SESSION['user']['id'];
+        $user = $this->userService->getById($userId);
         require ABSPATH . 'resources/unit/addUnit.php';
     }
 
@@ -73,6 +77,8 @@ class UnitController
 
     public function unitEdit($id)
     {
+        $userId = $_SESSION['user']['id'];
+        $user = $this->userService->getById($userId);
         $unit = $this->unitService->getById($id);
         require ABSPATH . 'resources/unit/editUnit.php';
     }
@@ -122,6 +128,8 @@ class UnitController
 
     public function unitDelete($id)
     {
+        $userId = $_SESSION['user']['id'];
+        $user = $this->userService->getById($userId);
         $unit = $this->unitService->getById($id);
 
         if (!$unit) {

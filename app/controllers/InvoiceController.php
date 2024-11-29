@@ -38,6 +38,8 @@ class InvoiceController
 
     public function invoicesAll()
     {
+        $userId = $_SESSION['user']['id'];
+        $user = $this->userService->getById($userId);
         $invoices = $this->invoiceService->getAllInvoices();
 
         require ABSPATH . 'resources/invoice/allInvoices.php';
@@ -45,6 +47,8 @@ class InvoiceController
 
     public function invoiceAdd()
     {
+        $userId = $_SESSION['user']['id'];
+        $user = $this->userService->getById($userId);
         $categories = $this->categoryService->getAllCategories();
         $invoice_data = $this->invoiceService->getInvoiceNo('*', null, 'id DESC LIMIT 1');
         if ($invoice_data == null) {
@@ -192,6 +196,8 @@ class InvoiceController
 
     public function invoicePendingList()
     {
+        $userId = $_SESSION['user']['id'];
+        $user = $this->userService->getById($userId);
         $pendingInvoices = $this->invoiceService->getAllApprovalInvoices();
 
         require ABSPATH . 'resources/invoice/pendingListInvoice.php';
@@ -199,6 +205,8 @@ class InvoiceController
 
     public function invoiceDelete($id)
     {
+        $userId = $_SESSION['user']['id'];
+        $user = $this->userService->getById($userId);
         $invoice = $this->invoiceService->getById($id);
         if (!$invoice) {
             $_SESSION['toastrNotify'] = [
@@ -229,6 +237,8 @@ class InvoiceController
 
     public function invoiceApprove($id)
     {
+        $userId = $_SESSION['user']['id'];
+        $user = $this->userService->getById($userId);
         $invoice = $this->invoiceService->getById($id);
         if (!$invoice) {
             $_SESSION['toastrNotify'] = [
@@ -288,6 +298,8 @@ class InvoiceController
 
     public function invoicePrintList()
     {
+        $userId = $_SESSION['user']['id'];
+        $user = $this->userService->getById($userId);
         $invoices = $this->invoiceService->getAllInvoices();
 
         require ABSPATH . 'resources/invoice/printInvoiceList.php';
@@ -295,6 +307,8 @@ class InvoiceController
 
     public function invoicePrint($id)
     {
+        $userId = $_SESSION['user']['id'];
+        $user = $this->userService->getById($userId);
         $invoice = $this->invoiceService->getById($id);
         if (!$invoice) {
             $_SESSION['toastrNotify'] = [
@@ -312,6 +326,8 @@ class InvoiceController
 
     public function downloadFile()
     {
+        $userId = $_SESSION['user']['id'];
+        $user = $this->userService->getById($userId);
         $random = bin2hex(random_bytes(4));
         $file = "/public/downloads/$random.pdf";
         header('Content-Type: application/pdf');
@@ -322,11 +338,15 @@ class InvoiceController
 
     public function invoiceDailyReport()
     {
+        $userId = $_SESSION['user']['id'];
+        $user = $this->userService->getById($userId);
         require ABSPATH . 'resources/invoice/dailyReportInvoice.php';
     }
 
     public function invoiceDailyPDF()
     {
+        $userId = $_SESSION['user']['id'];
+        $user = $this->userService->getById($userId);
         $sdate = date('Y-m-d', strtotime($_GET['start_date']));
         $edate = date('Y-m-d', strtotime($_GET['end_date']));
         $invoices = $this->invoiceService->getDailyReport($sdate, $edate);

@@ -13,11 +13,11 @@ function getDateTime()
 
 function handleImage($path, $filePathName, $old_image = null)
 {
-    if (!empty($old_image)) {
+    if (!empty($old_image) && file_exists($old_image)) {
         unlink($old_image);
     }
 
-    $targetDir = "public/uploads/$path/";
+    $targetDir = "$path";
     $imageFileName = 'image' . '_' . bin2hex(random_bytes(4)) . '.' . strtolower(pathinfo($_FILES[$filePathName]['name'], PATHINFO_EXTENSION));
     $extension = strtolower(pathinfo($imageFileName, PATHINFO_EXTENSION));
     $targetFile = $targetDir . $imageFileName;

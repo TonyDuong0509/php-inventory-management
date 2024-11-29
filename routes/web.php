@@ -73,6 +73,30 @@ $router->map('GET', '/', function () use ($serviceContainer) {
     $controller->dashboard();
 }, 'dashboard');
 
+$router->map('GET', '/profile', function () use ($serviceContainer) {
+    Middleware::authMiddleware();
+    $controller = $serviceContainer->resolve(UserController::class);
+    $controller->profile();
+}, 'profile');
+
+$router->map('POST', '/update-profile', function () use ($serviceContainer) {
+    Middleware::authMiddleware();
+    $controller = $serviceContainer->resolve(UserController::class);
+    $controller->updateProfile();
+}, 'update.profile');
+
+$router->map('GET', '/change/password/page', function () use ($serviceContainer) {
+    Middleware::authMiddleware();
+    $controller = $serviceContainer->resolve(UserController::class);
+    $controller->changePasswordPage();
+}, 'change.password.page');
+
+$router->map('POST', '/change-password', function () use ($serviceContainer) {
+    Middleware::authMiddleware();
+    $controller = $serviceContainer->resolve(UserController::class);
+    $controller->changePassword();
+}, 'change.password');
+
 
 // Supplier routes
 $router->map('GET', '/all-suppliers', function () use ($serviceContainer) {

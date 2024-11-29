@@ -7,6 +7,7 @@ use App\Services\InvoiceService;
 use App\Services\ProductService;
 use App\Services\PurchaseService;
 use App\Services\SupplierService;
+use App\Services\UserService;
 
 use function Utils\Functions\getDateTime;
 
@@ -17,6 +18,7 @@ class StockController
     private $categoryService;
     private $purchaseService;
     private $invoiceService;
+    private $userService;
 
     public function __construct(
         ProductService $productService,
@@ -24,16 +26,20 @@ class StockController
         CategoryService $categoryService,
         PurchaseService $purchaseService,
         InvoiceService $invoiceService,
+        UserService $userService,
     ) {
         $this->productService = $productService;
         $this->supplierService = $supplierService;
         $this->categoryService = $categoryService;
         $this->purchaseService = $purchaseService;
         $this->invoiceService = $invoiceService;
+        $this->userService = $userService;
     }
 
     public function stockReport()
     {
+        $userId = $_SESSION['user']['id'];
+        $user = $this->userService->getById($userId);
         $products = $this->productService->getStockReport();
 
         $buying_totals = [];
@@ -49,6 +55,8 @@ class StockController
 
     public function stockReportPDF()
     {
+        $userId = $_SESSION['user']['id'];
+        $user = $this->userService->getById($userId);
         $products = $this->productService->getStockReport();
 
         $buying_totals = [];
@@ -65,6 +73,8 @@ class StockController
 
     public function stockSupplierWise()
     {
+        $userId = $_SESSION['user']['id'];
+        $user = $this->userService->getById($userId);
         $suppliers = $this->supplierService->getAllSuppliers();
         $categories = $this->categoryService->getAllCategories();
 
@@ -73,6 +83,8 @@ class StockController
 
     public function supplierWisePDF()
     {
+        $userId = $_SESSION['user']['id'];
+        $user = $this->userService->getById($userId);
         $supplier_id = $_GET['supplier_id'] ?? '';
         $products = $this->productService->getSupplierWise($supplier_id);
 
@@ -83,6 +95,8 @@ class StockController
 
     public function productWisePDF()
     {
+        $userId = $_SESSION['user']['id'];
+        $user = $this->userService->getById($userId);
         $category_id = $_GET['category_id'] ?? '';
         $product_id = $_GET['product_id'] ?? '';
         $products = $this->productService->getProductWise($category_id, $product_id);

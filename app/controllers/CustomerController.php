@@ -31,6 +31,8 @@ class CustomerController
 
     public function customersAll()
     {
+        $userId = $_SESSION['user']['id'];
+        $user = $this->userService->getById($userId);
         $customers = $this->customerService->getAllCustomers();
 
         require ABSPATH . 'resources/customer/allCustomers.php';
@@ -38,14 +40,15 @@ class CustomerController
 
     public function customerAdd()
     {
+        $userId = $_SESSION['user']['id'];
+        $user = $this->userService->getById($userId);
         require ABSPATH . 'resources/customer/addCustomer.php';
     }
 
     public function customerStore()
     {
-        $id = $_SESSION['user']['id'] ?? '';
-
-        $user = $this->userService->getById($id);
+        $userId = $_SESSION['user']['id'];
+        $user = $this->userService->getById($userId);
 
         $name = $_POST['name'] ?? '';
         $email = $_POST['email'] ?? '';
@@ -72,7 +75,7 @@ class CustomerController
             exit;
         }
 
-        $customer_image = handleImage('customer', 'customer_image');
+        $customer_image = handleImage('public/uploads/customer/', 'customer_image');
 
 
         $params = [
@@ -110,6 +113,8 @@ class CustomerController
 
     public function customerEdit($id)
     {
+        $userId = $_SESSION['user']['id'];
+        $user = $this->userService->getById($userId);
         $customer = $this->customerService->getById($id);
 
         if (!$customer) {
@@ -126,10 +131,9 @@ class CustomerController
 
     public function customerUpdate()
     {
-        $id = $_SESSION['user']['id'] ?? '';
+        $userId = $_SESSION['user']['id'];
+        $user = $this->userService->getById($userId);
         $old_image = $_POST['old_image'] ?? '';
-
-        $user = $this->userService->getById($id);
 
         $customerId = $_POST['customerId'] ?? '';
 
@@ -185,6 +189,8 @@ class CustomerController
 
     public function customerDelete($id)
     {
+        $userId = $_SESSION['user']['id'];
+        $user = $this->userService->getById($userId);
         $customer = $this->customerService->getById($id);
 
         if (!$customer) {
@@ -218,6 +224,8 @@ class CustomerController
 
     public function creditCustomer()
     {
+        $userId = $_SESSION['user']['id'];
+        $user = $this->userService->getById($userId);
         $payments = $this->paymentService->getAllPaymentsWithStatus();
 
         require ABSPATH . 'resources/customer/creditCustomer.php';
@@ -225,6 +233,8 @@ class CustomerController
 
     public function creditCustomerPrintPDF()
     {
+        $userId = $_SESSION['user']['id'];
+        $user = $this->userService->getById($userId);
         $payments = $this->paymentService->getAllPaymentsWithStatus();
         $date = getDateTime();
 
@@ -233,6 +243,8 @@ class CustomerController
 
     public function customerEditInvoice($invoice_id)
     {
+        $userId = $_SESSION['user']['id'];
+        $user = $this->userService->getById($userId);
         $payment = $this->paymentService->getByInvoiceId($invoice_id);
         $invoices_details = $this->invoiceService->getAllInvoicesDetailsByInvoiceId($payment->getInvoiceId());
 
@@ -283,6 +295,8 @@ class CustomerController
 
     public function customerInvoiceDetails($invoice_id)
     {
+        $userId = $_SESSION['user']['id'];
+        $user = $this->userService->getById($userId);
         $payment = $this->paymentService->getByInvoiceId($invoice_id);
         $invoices_details = $this->invoiceService->getAllInvoicesDetailsByInvoiceId($payment->getInvoiceId());
         $payment_details = $this->paymentService->getPaymentDetailsByInvoiceId($payment->getInvoiceId());
@@ -292,12 +306,16 @@ class CustomerController
 
     public function paidCustomer()
     {
+        $userId = $_SESSION['user']['id'];
+        $user = $this->userService->getById($userId);
         $payments = $this->paymentService->getPaidCustomer();
         require ABSPATH . 'resources/customer/paidCustomer.php';
     }
 
     public function paidCustomerPrintPDF()
     {
+        $userId = $_SESSION['user']['id'];
+        $user = $this->userService->getById($userId);
         $payments = $this->paymentService->getPaidCustomer();
         $date = getDateTime();
         require ABSPATH . 'resources/customer/paidCustomerPrintPDF.php';
@@ -305,12 +323,16 @@ class CustomerController
 
     public function customerWiseReport()
     {
+        $userId = $_SESSION['user']['id'];
+        $user = $this->userService->getById($userId);
         $customers = $this->customerService->getAllCustomers();
         require ABSPATH . 'resources/customer/customerWiseReport.php';
     }
 
     public function customerWiseCreditReport()
     {
+        $userId = $_SESSION['user']['id'];
+        $user = $this->userService->getById($userId);
         $customer_id = $_GET['customer_id'];
         $payments = $this->paymentService->getAllPaymentsCustomerCreditReport($customer_id);
         $date = getDateTime();
@@ -319,6 +341,8 @@ class CustomerController
 
     public function customerWisePaidReport()
     {
+        $userId = $_SESSION['user']['id'];
+        $user = $this->userService->getById($userId);
         $customer_id = $_GET['customer_id'];
         $payments = $this->paymentService->getAllPaymentsCustomerPaidReport($customer_id);
         $date = getDateTime();

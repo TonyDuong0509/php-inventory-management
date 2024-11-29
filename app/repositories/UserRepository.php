@@ -60,7 +60,9 @@ class UserRepository implements UserRepositoryInterface
                         $row['phone'],
                         $row['role'],
                         $row['created_at'],
-                        $row['updated_at']
+                        $row['updated_at'],
+                        $row['status'],
+                        $row['avatar']
                     );
 
                     $users[] = $user;
@@ -90,6 +92,41 @@ class UserRepository implements UserRepositoryInterface
             $condition = "id = '$id'";
             $users = $this->fetchAll($condition);
             return current($users);
+        } catch (Exception $error) {
+            throw new Exception($error->getMessage());
+        }
+    }
+
+    public function update($user): object|bool
+    {
+        try {
+            global $mysqli;
+
+            $id = $user->getId();
+            $fullName = $user->getFullName();
+            $phone = $user->getPhone();
+            $avatar = $user->getAvatar();
+            $updated_at = $user->getUpdatedAt();
+            $sql = "UPDATE users
+                    SET fullName = '$fullName', phone = '$phone', avatar = '$avatar', updated_at = '$updated_at'
+                    WHERE id = '$id'";
+            if ($mysqli->query($sql) === true) return true;
+        } catch (Exception $error) {
+            throw new Exception($error->getMessage());
+        }
+    }
+
+    public function updatePassword($user): object|bool
+    {
+        try {
+            global $mysqli;
+
+            $id = $user->getId();
+            $password = $user->getPassword();
+            $sql = "UPDATE users
+                    SET password = '$password'
+                    WHERE id = '$id'";
+            if ($mysqli->query($sql) === true) return true;
         } catch (Exception $error) {
             throw new Exception($error->getMessage());
         }

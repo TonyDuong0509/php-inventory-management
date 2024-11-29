@@ -22,6 +22,8 @@ class CategoryController
 
     public function categoriesAll()
     {
+        $userId = $_SESSION['user']['id'];
+        $user = $this->userService->getById($userId);
         $categories = $this->categoryService->getAllCategories();
 
         require ABSPATH . 'resources/category/allCategories.php';
@@ -29,14 +31,15 @@ class CategoryController
 
     public function categoryAdd()
     {
+        $userId = $_SESSION['user']['id'];
+        $user = $this->userService->getById($userId);
         require ABSPATH . 'resources/category/addCategory.php';
     }
 
     public function categoryStore()
     {
-        $id = $_SESSION['user']['id'] ?? '';
-
-        $user = $this->userService->getById($id);
+        $userId = $_SESSION['user']['id'];
+        $user = $this->userService->getById($userId);
 
         $name = $_POST['name'] ?? '';
         $created_by = $user->getId();
@@ -73,14 +76,16 @@ class CategoryController
 
     public function categoryEdit($id)
     {
+        $userId = $_SESSION['user']['id'];
+        $user = $this->userService->getById($userId);
         $category = $this->categoryService->getById($id);
         require ABSPATH . 'resources/category/editCategory.php';
     }
 
     public function categoryUpdate()
     {
-        $id = $_SESSION['user']['id'] ?? '';
-        $user = $this->userService->getById($id);
+        $userId = $_SESSION['user']['id'];
+        $user = $this->userService->getById($userId);
 
         $categoryId = $_POST['categoryId'];
         $category = $this->categoryService->getById($categoryId);
@@ -122,6 +127,8 @@ class CategoryController
 
     public function categoryDelete($id)
     {
+        $userId = $_SESSION['user']['id'];
+        $user = $this->userService->getById($userId);
         $category = $this->categoryService->getById($id);
 
         if (!$category) {

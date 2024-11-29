@@ -32,6 +32,8 @@ class PurchaseController
 
     public function purchasesAll()
     {
+        $userId = $_SESSION['user']['id'];
+        $user = $this->userService->getById($userId);
         $purchases = $this->purchaseService->getAllPurchases();
 
         require ABSPATH . 'resources/purchase/allPurchases.php';
@@ -39,6 +41,8 @@ class PurchaseController
 
     public function purchaseAdd()
     {
+        $userId = $_SESSION['user']['id'];
+        $user = $this->userService->getById($userId);
         $suppliers = $this->supplierService->getAllSuppliers();
 
         require ABSPATH . 'resources/purchase/addPurchase.php';
@@ -92,6 +96,8 @@ class PurchaseController
 
     public function purchasePending()
     {
+        $userId = $_SESSION['user']['id'];
+        $user = $this->userService->getById($userId);
         $pendingPurchases = $this->purchaseService->getAllPendingPurchases();
 
         require ABSPATH . 'resources/purchase/pendingPurchase.php';
@@ -99,6 +105,8 @@ class PurchaseController
 
     public function purchaseDelete($id)
     {
+        $userId = $_SESSION['user']['id'];
+        $user = $this->userService->getById($userId);
         $purchase = $this->purchaseService->getById($id);
 
         if (!$purchase) {
@@ -130,6 +138,8 @@ class PurchaseController
 
     public function purchaseApprove($id)
     {
+        $userId = $_SESSION['user']['id'];
+        $user = $this->userService->getById($userId);
         $purchase = $this->purchaseService->getById($id);
 
         if (!$purchase) {
@@ -159,11 +169,15 @@ class PurchaseController
 
     public function dailyPurchaseReport()
     {
+        $userId = $_SESSION['user']['id'];
+        $user = $this->userService->getById($userId);
         require ABSPATH . 'resources/purchase/dailyPurchaseReport.php';
     }
 
     public function dailyPurchaseReportPDF()
     {
+        $userId = $_SESSION['user']['id'];
+        $user = $this->userService->getById($userId);
         $sdate = date('Y-m-d', strtotime($_GET['start_date']));
         $edate = date('Y-m-d', strtotime($_GET['end_date']));
 

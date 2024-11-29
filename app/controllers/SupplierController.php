@@ -22,6 +22,8 @@ class SupplierController
 
     public function suppliersAll()
     {
+        $userId = $_SESSION['user']['id'];
+        $user = $this->userService->getById($userId);
         $suppliers = $this->supplierService->getAllSuppliers();
 
         require ABSPATH . 'resources/supplier/allSuppliers.php';
@@ -29,6 +31,8 @@ class SupplierController
 
     public function supplierAdd()
     {
+        $userId = $_SESSION['user']['id'];
+        $user = $this->userService->getById($userId);
         require ABSPATH . 'resources/supplier/addSupplier.php';
     }
 
@@ -98,6 +102,8 @@ class SupplierController
 
     public function supplierEdit($id)
     {
+        $userId = $_SESSION['user']['id'];
+        $user = $this->userService->getById($userId);
         $supplier = $this->supplierService->getById($id);
         if (!$supplier) {
             $_SESSION['toastrNotify'] = [
@@ -147,6 +153,8 @@ class SupplierController
 
     public function supplierDelete($id)
     {
+        $userId = $_SESSION['user']['id'];
+        $user = $this->userService->getById($userId);
         if (!$this->supplierService->delete($id)) {
             $_SESSION['toastrNotify'] = [
                 'alert-type' => 'error',

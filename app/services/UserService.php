@@ -32,4 +32,14 @@ class UserService
     {
         return $this->userRepository->getById($id);
     }
+
+    public function update($user): object|bool
+    {
+        return $this->userRepository->update($user);
+    }
+
+    public function updatePassword($user): object|bool
+    {
+        return $this->userRepository->updatePassword($user);
+    }
 }
