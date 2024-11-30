@@ -5,7 +5,11 @@
         <!-- User details -->
         <div class="user-profile text-center mt-3">
             <div class="">
-                <img class="avatar-md rounded-circle" src="<?php echo $user->getAvatar(); ?>" alt="">
+                <?php if ($user->getAvatar() === null): ?>
+                    <img class="avatar-md rounded-circle" src="<?php ABSPATH ?>/public/uploads/no_image.jpg" alt="">
+                <?php else: ?>
+                    <img class="avatar-md rounded-circle" src="<?php echo $user->getAvatar(); ?>" alt="">
+                <?php endif; ?>
             </div>
             <div class="mt-3">
                 <h4 class="font-size-16 mb-1"><?php echo $user->getFullName(); ?></h4>

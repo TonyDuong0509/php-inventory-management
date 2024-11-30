@@ -13,10 +13,6 @@ class UserRepository implements UserRepositoryInterface
         global $mysqli;
 
         try {
-            if (!isset($params['fullName'], $params['email'], $params['password'], $params['phone'], $params['role'])) {
-                throw new Exception('Missing required fields');
-            }
-
             $fullName = $mysqli->real_escape_string($params['fullName']);
             $email = $mysqli->real_escape_string($params['email']);
             $password = $mysqli->real_escape_string($params['password']);

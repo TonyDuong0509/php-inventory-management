@@ -73,9 +73,21 @@
                                     <a href="/register-form" class="text-muted"><i class="mdi mdi-account-circle"></i> Create an account</a>
                                 </div>
                             </div>
+
+                            <?php
+                            $client = new Google\Client;
+                            $client->setClientId($_ENV['GOOGLE_ID']);
+                            $client->setClientSecret($_ENV['GOOGLE_SECRET']);
+                            $client->setRedirectUri($_ENV['GOOGLE_REDIRECT']);
+                            $client->addScope('email');
+                            $client->addScope('profile');
+
+                            $url = $client->createAuthUrl();
+                            ?>
+
                             <div class="form-group mb-0 row mt-2">
                                 <div class="col-sm-7 mt-3">
-                                    <a href="" class="text-muted"><i style="color: red" class="mdi mdi-google"></i> Login with Email?</a>
+                                    <a href="<?= $url; ?>" class="text-muted"><i style="color: red" class="mdi mdi-google"></i> Login with Email?</a>
                                 </div>
                             </div>
                         </form>

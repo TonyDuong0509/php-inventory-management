@@ -73,6 +73,12 @@ $router->map('GET', '/', function () use ($serviceContainer) {
     $controller->dashboard();
 }, 'dashboard');
 
+$router->map('GET', '/redirect', function () use ($serviceContainer) {
+    $controller = $serviceContainer->resolve(UserController::class);
+    $controller->handleGoogleCallback();
+}, 'google.callback');
+
+
 $router->map('GET', '/profile', function () use ($serviceContainer) {
     Middleware::authMiddleware();
     $controller = $serviceContainer->resolve(UserController::class);

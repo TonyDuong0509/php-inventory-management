@@ -368,8 +368,13 @@
             <div class="dropdown d-inline-block user-dropdown">
                 <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <img class="rounded-circle header-profile-user" src="<?php echo $user->getAvatar(); ?>"
-                        alt="Header Avatar">
+                    <?php if ($user->getAvatar() === null): ?>
+                        <img class="rounded-circle header-profile-user" src="<?php ABSPATH ?>/public/uploads/no_image.jpg"
+                            alt="Header Avatar">
+                    <?php else: ?>
+                        <img class="rounded-circle header-profile-user" src="<?php echo $user->getAvatar(); ?>"
+                            alt="Header Avatar">
+                    <?php endif; ?>
                     <span class="d-none d-xl-inline-block ms-1"><?php echo $user->getFullName(); ?></span>
                     <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
                 </button>
