@@ -59,6 +59,31 @@ $router->map('POST', '/login', function () use ($serviceContainer) {
     $controller->login();
 }, 'login');
 
+$router->map('GET', '/forgot-password', function () use ($serviceContainer) {
+    $controller = $serviceContainer->resolve(AuthController::class);
+    $controller->forgotPasswordPage();
+}, 'forgot.password');
+
+$router->map('POST', '/send-password-reset', function () use ($serviceContainer) {
+    $controller = $serviceContainer->resolve(AuthController::class);
+    $controller->sendPasswordReset();
+}, 'send.password.reset');
+
+$router->map('GET', '/confirm-email-page', function () use ($serviceContainer) {
+    $controller = $serviceContainer->resolve(AuthController::class);
+    $controller->confirmEmailPage();
+}, 'confirm.email.page');
+
+$router->map('POST', '/reset-password', function () use ($serviceContainer) {
+    $controller = $serviceContainer->resolve(AuthController::class);
+    $controller->resetPassword();
+}, 'reset.password');
+
+$router->map('GET', '/reset-password', function () use ($serviceContainer) {
+    $controller = $serviceContainer->resolve(AuthController::class);
+    $controller->resetPasswordPage();
+}, 'reset.password.page');
+
 $router->map('GET', '/logout', function () use ($serviceContainer) {
     Middleware::authMiddleware();
     $controller = $serviceContainer->resolve(AuthController::class);
@@ -77,7 +102,6 @@ $router->map('GET', '/redirect', function () use ($serviceContainer) {
     $controller = $serviceContainer->resolve(UserController::class);
     $controller->handleGoogleCallback();
 }, 'google.callback');
-
 
 $router->map('GET', '/profile', function () use ($serviceContainer) {
     Middleware::authMiddleware();

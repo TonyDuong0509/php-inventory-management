@@ -35,59 +35,24 @@
                             </a>
                         </div>
                     </div>
-                    <h4 class="text-muted text-center font-size-18"><b>Sign In</b></h4>
+                    <h4 class="text-muted text-center font-size-18"><b>Reset Password</b></h4>
                     <div class="p-3">
-                        <form id="myForm" class="form-horizontal mt-3" method="POST" action="<?php echo $router->generate('login'); ?>">
+                        <form id="myForm" class="form-horizontal mt-3" method="POST" action="/reset-password">
+                            <input type="hidden" name="token" value="<?= $token; ?>">
                             <div class="form-group mb-3 row">
                                 <div class="col-12 form-group">
-                                    <input class="form-control" type="email" name="email" placeholder="Email" value="<?php echo $_SESSION['formData']['email'] ?? ''; ?>">
+                                    <input class="form-control" type="password" id="password" name="password" placeholder="New Password">
                                 </div>
                             </div>
-
                             <div class="form-group mb-3 row">
                                 <div class="col-12 form-group">
-                                    <input class="form-control" type="password" name="password" placeholder="Password">
+                                    <input class="form-control" type="password" id="confirmPassword" name="confirm_password" placeholder="Confirm New Password">
+                                    <div id="message"></div>
                                 </div>
                             </div>
-
-                            <div class="form-group mb-3 row">
-                                <div class="col-12">
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="customCheck1">
-                                        <label class="form-label ms-1" for="customCheck1">Remember me</label>
-                                    </div>
-                                </div>
-                            </div>
-
                             <div class="form-group mb-3 text-center row mt-3 pt-1">
                                 <div class="col-12">
-                                    <button class="btn btn-info w-100 waves-effect waves-light" type="submit">Log In</button>
-                                </div>
-                            </div>
-
-                            <div class="form-group mb-0 row mt-2">
-                                <div class="col-sm-7 mt-3">
-                                    <a href="/forgot-password" class="text-muted"><i class="mdi mdi-lock"></i> Forgot your password?</a>
-                                </div>
-                                <div class="col-sm-5 mt-3">
-                                    <a href="/register-form" class="text-muted"><i class="mdi mdi-account-circle"></i> Create an account</a>
-                                </div>
-                            </div>
-
-                            <?php
-                            $client = new Google\Client;
-                            $client->setClientId($_ENV['GOOGLE_ID']);
-                            $client->setClientSecret($_ENV['GOOGLE_SECRET']);
-                            $client->setRedirectUri($_ENV['GOOGLE_REDIRECT']);
-                            $client->addScope('email');
-                            $client->addScope('profile');
-
-                            $url = $client->createAuthUrl();
-                            ?>
-
-                            <div class="form-group mb-0 row mt-2">
-                                <div class="col-sm-7 mt-3">
-                                    <a href="<?= $url; ?>" class="text-muted"><i style="color: red" class="mdi mdi-google"></i> Login with Email?</a>
+                                    <button class="btn btn-info w-100 waves-effect waves-light" type="submit">Reset</button>
                                 </div>
                             </div>
                         </form>
@@ -112,22 +77,20 @@
     <script src="<?php ABSPATH ?>/public/js/validate.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
-    <?php include ABSPATH . 'resources/layout/libs.php'; ?>
-
     <script type="text/javascript">
         $(document).ready(function() {
             $('#myForm').validate({
                 rules: {
-                    email: {
-                        required: true
-                    },
                     password: {
-                        required: true
+                        required: true,
+                    },
+                    confirm_password: {
+                        required: true,
                     }
                 },
                 messages: {
-                    email: 'Please enter your email',
-                    password: 'Please enter your password'
+                    password: 'Please provide your password',
+                    confirm_password: 'Please provide your confirm password'
                 },
                 errorElement: 'span',
                 errorPlacement: function(error, element) {
@@ -142,7 +105,16 @@
                 },
             });
         });
+
+        $('#password, #confirmPassword').on('keyup', function() {
+            if ($('#password').val() == $('#confirmPassword').val()) {
+                $('#message').html('Password is matched').css('color', 'green');
+            } else
+                $('#message').html("Password isn't matching").css('color', 'red');
+        });
     </script>
+
+    <?php include ABSPATH . 'resources/layout/libs.php'; ?>
 
 </body>
 

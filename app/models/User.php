@@ -14,8 +14,10 @@ class User
     private $updated_at;
     private $status;
     private $avatar;
+    private $reset_token_hash;
+    private $reset_token_expires_at;
 
-    public function __construct($id, $fullName, $email, $password, $phone, $role, $created_at, $updated_at, $status, $avatar)
+    public function __construct($id, $fullName, $email, $password, $phone, $role, $created_at, $updated_at, $status, $avatar, $reset_token_hash, $reset_token_expires_at)
     {
         $this->id = $id;
         $this->fullName = $fullName;
@@ -27,6 +29,8 @@ class User
         $this->updated_at = $updated_at;
         $this->status = $status;
         $this->avatar = $avatar;
+        $this->reset_token_hash = $reset_token_hash;
+        $this->reset_token_expires_at = $reset_token_expires_at;
     }
 
     /**
@@ -205,6 +209,42 @@ class User
     public function setAvatar($avatar): self
     {
         $this->avatar = $avatar;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of reset_token_hash
+     */
+    public function getResetTokenHash()
+    {
+        return $this->reset_token_hash;
+    }
+
+    /**
+     * Set the value of reset_token_hash
+     */
+    public function setResetTokenHash($reset_token_hash): self
+    {
+        $this->reset_token_hash = $reset_token_hash;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of reset_token_expires_at
+     */
+    public function getResetTokenExpiresAt()
+    {
+        return $this->reset_token_expires_at;
+    }
+
+    /**
+     * Set the value of reset_token_expires_at
+     */
+    public function setResetTokenExpiresAt($reset_token_expires_at): self
+    {
+        $this->reset_token_expires_at = $reset_token_expires_at;
 
         return $this;
     }

@@ -42,4 +42,19 @@ class UserService
     {
         return $this->userRepository->updatePassword($user);
     }
+
+    public function sendPasswordReset($reset_token_hash, $reset_token_expires_at, $email): object|bool
+    {
+        return $this->userRepository->sendPasswordReset($reset_token_hash, $reset_token_expires_at, $email);
+    }
+
+    public function getByToken($token): object|bool
+    {
+        return $this->userRepository->getByToken($token);
+    }
+
+    public function resetPassword($user): object|bool
+    {
+        return $this->userRepository->resetPassword($user);
+    }
 }

@@ -3,8 +3,10 @@
 namespace App\Controllers;
 
 use App\Services\UserService;
+use Exception;
 
 use function Utils\Functions\getDateTime;
+use function Utils\Functions\mailer;
 
 class AuthController
 {
@@ -137,6 +139,126 @@ class AuthController
             ];
         }
 
+        header("Location: /login-form");
+        exit;
+    }
+
+    public function forgotPasswordPage()
+    {
+        require ABSPATH . 'resources/auth/forgot-password.php';
+    }
+
+    public function confirmEmailPage()
+    {
+        require ABSPATH . 'resources/auth/confirmEmailPage.php';
+    }
+
+    public function sendPasswordReset()
+    {
+        $email = $_POST['email'];
+
+        if (!$this->userService->getByEmail($email)) {
+            $_SESSION['toastrNotify'] = [
+                'alert-type' => 'error',
+                'message' => 'Email is not exist, please try again'
+            ];
+            header("Location: " . $_SERVER['HTTP_REFERER']);
+            exit;
+        }
+
+        $token = bin2hex(random_bytes(16));
+        $token_hash = hash('sha256', $token);
+        $expiry = date('Y-m-d H:i:s', time() + 60 * 30);
+
+        $this->userService->sendPasswordReset($token_hash, $expiry, $email);
+
+        $mail = mailer();
+
+        $mail->setFrom("duonganhhao4751@gmail.com");
+        $mail->addAddress($email);
+        $mail->Subject = "Password Reset";
+        $mail->Body = <<<END
+        Click <a href="http://inventory.com/reset-password?token=$token">here</a> to reset your password
+        END;
+
+        try {
+            $mail->send();
+        } catch (Exception $error) {
+            echo "Message could not be sent. Mailer error: {$mail->ErrorInfo}";
+        }
+
+        header("Location: /confirm-email-page");
+        exit;
+    }
+
+    public function resetPasswordPage()
+    {
+        $token = $_GET['token'];
+        $token_hash = hash('sha256', $token);
+
+        $user = $this->userService->getByToken($token_hash);
+        if ($user === null) {
+            $_SESSION['toastrNotify'] = [
+                'alert-type' => 'error',
+                'message' => 'Token not found'
+            ];
+            header("Location: " . $_SERVER['HTTP_REFERER']);
+            exit;
+        }
+
+        if (strtotime($user->getResetTokenExpiresAt() <= time())) {
+            $_SESSION['toastrNotify'] = [
+                'alert-type' => 'error',
+                'message' => 'Token is valid and has not expired'
+            ];
+            header("Location: " . $_SERVER['HTTP_REFERER']);
+            exit;
+        }
+        require ABSPATH . 'resources/auth/resetPasswordPage.php';
+    }
+
+    public function resetPassword()
+    {
+        $token = $_POST['token'];
+        $token_hash = hash('sha256', $token);
+
+        $user = $this->userService->getByToken($token_hash);
+        if ($user === null) {
+            $_SESSION['toastrNotify'] = [
+                'alert-type' => 'error',
+                'message' => 'Token not found'
+            ];
+            header("Location: " . $_SERVER['HTTP_REFERER']);
+            exit;
+        }
+
+        if (strtotime($user->getResetTokenExpiresAt() <= time())) {
+            $_SESSION['toastrNotify'] = [
+                'alert-type' => 'error',
+                'message' => 'Token is valid and has not expired'
+            ];
+            header("Location: " . $_SERVER['HTTP_REFERER']);
+            exit;
+        }
+
+        $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
+        $user->setPassword($password);
+
+        $result = $this->userService->resetPassword($user);
+
+        if (!$result) {
+            $_SESSION['toastrNotify'] = [
+                'alert-type' => 'error',
+                'message' => 'Reset password failed, please try again'
+            ];
+            header("Location: " . $_SERVER['HTTP_REFERER']);
+            exit;
+        }
+
+        $_SESSION['toastrNotify'] = [
+            'alert-type' => 'success',
+            'message' => 'Reseted Password successfully, you can login'
+        ];
         header("Location: /login-form");
         exit;
     }

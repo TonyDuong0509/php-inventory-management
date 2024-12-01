@@ -4,6 +4,7 @@ namespace Utils\Functions;
 
 use DateTime;
 use DateTimeZone;
+use PHPMailer\PHPMailer\PHPMailer;
 
 function getDateTime()
 {
@@ -41,4 +42,21 @@ function handleImage($path, $filePathName, $old_image = null)
 
     header("Location: " . $_SERVER['HTTP_REFERER']);
     exit;
+}
+
+function mailer()
+{
+    $mail = new PHPMailer(true);
+    $mail->isSMTP();
+    $mail->SMTPAuth = true;
+
+    $mail->Host = "smtp.gmail.com";
+    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+    $mail->Port = 587;
+    $mail->Username = "duonganhhao4751@gmail.com";
+    $mail->Password = $_ENV['APP_PASSWORD'];
+
+    $mail->isHTML(true);
+
+    return $mail;
 }

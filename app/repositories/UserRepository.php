@@ -58,7 +58,9 @@ class UserRepository implements UserRepositoryInterface
                         $row['created_at'],
                         $row['updated_at'],
                         $row['status'],
-                        $row['avatar']
+                        $row['avatar'],
+                        $row['reset_token_hash'],
+                        $row['reset_token_expires_at'],
                     );
 
                     $users[] = $user;
@@ -86,6 +88,17 @@ class UserRepository implements UserRepositoryInterface
     {
         try {
             $condition = "id = '$id'";
+            $users = $this->fetchAll($condition);
+            return current($users);
+        } catch (Exception $error) {
+            throw new Exception($error->getMessage());
+        }
+    }
+
+    public function getByToken($token): object|bool
+    {
+        try {
+            $condition = "reset_token_hash = '$token'";
             $users = $this->fetchAll($condition);
             return current($users);
         } catch (Exception $error) {
@@ -121,6 +134,36 @@ class UserRepository implements UserRepositoryInterface
             $password = $user->getPassword();
             $sql = "UPDATE users
                     SET password = '$password'
+                    WHERE id = '$id'";
+            if ($mysqli->query($sql) === true) return true;
+        } catch (Exception $error) {
+            throw new Exception($error->getMessage());
+        }
+    }
+
+    public function sendPasswordReset($reset_token_hash, $reset_token_expires_at, $email): object|bool
+    {
+        try {
+            global $mysqli;
+
+            $sql = "UPDATE users
+                    SET reset_token_hash = '$reset_token_hash', reset_token_expires_at = '$reset_token_expires_at'
+                    WHERE email = '$email'";
+            if ($mysqli->query($sql) === true) return true;
+        } catch (Exception $error) {
+            throw new Exception($error->getMessage());
+        }
+    }
+
+    public function resetPassword($user): object|bool
+    {
+        try {
+            global $mysqli;
+
+            $id = $user->getId();
+            $password = $user->getPassword();
+            $sql = "UPDATE users
+                    SET password = '$password', reset_token_hash = NULL, reset_token_expires_at = NULL
                     WHERE id = '$id'";
             if ($mysqli->query($sql) === true) return true;
         } catch (Exception $error) {
