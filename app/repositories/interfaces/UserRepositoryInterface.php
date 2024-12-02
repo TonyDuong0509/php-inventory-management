@@ -13,4 +13,6 @@ interface UserRepositoryInterface
     public function updatePassword($user): object|bool;
     public function sendPasswordReset($reset_token_hash, $reset_token_expires_at, $email): object|bool;
     public function resetPassword($user): object|bool;
+    public function activeAccount($id): object|bool;
+    public function getByActiveToken($token): object|bool;
 }

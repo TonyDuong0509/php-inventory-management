@@ -74,6 +74,16 @@ $router->map('GET', '/confirm-email-page', function () use ($serviceContainer) {
     $controller->confirmEmailPage();
 }, 'confirm.email.page');
 
+$router->map('GET', '/active-account-page', function () use ($serviceContainer) {
+    $controller = $serviceContainer->resolve(AuthController::class);
+    $controller->activeAccountPage();
+}, 'active.account.page');
+
+$router->map('GET', '/active-account', function () use ($serviceContainer) {
+    $controller = $serviceContainer->resolve(AuthController::class);
+    $controller->activeAccount();
+}, 'active.account');
+
 $router->map('POST', '/reset-password', function () use ($serviceContainer) {
     $controller = $serviceContainer->resolve(AuthController::class);
     $controller->resetPassword();

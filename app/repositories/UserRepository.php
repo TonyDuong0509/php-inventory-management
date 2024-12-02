@@ -21,9 +21,10 @@ class UserRepository implements UserRepositoryInterface
             $created_at = $params['created_at'];
             $updated_at = $params['updated_at'];
             $status = $params['status'];
+            $account_activation_hash = $params['account_activation_hash'];
 
-            $sql = "INSERT INTO users (fullName, email, password, phone, role, created_at, updated_at, status)
-                    VALUES ('$fullName', '$email', '$password', '$phone', '$role', '$created_at', '$updated_at', '$status')";
+            $sql = "INSERT INTO users (fullName, email, password, phone, role, created_at, updated_at, status, account_activation_hash)
+                    VALUES ('$fullName', '$email', '$password', '$phone', '$role', '$created_at', '$updated_at', '$status', '$account_activation_hash')";
 
             if ($mysqli->query($sql) === true) {
                 return $mysqli->insert_id;
@@ -61,6 +62,7 @@ class UserRepository implements UserRepositoryInterface
                         $row['avatar'],
                         $row['reset_token_hash'],
                         $row['reset_token_expires_at'],
+                        $row['account_activation_hash']
                     );
 
                     $users[] = $user;
@@ -99,6 +101,17 @@ class UserRepository implements UserRepositoryInterface
     {
         try {
             $condition = "reset_token_hash = '$token'";
+            $users = $this->fetchAll($condition);
+            return current($users);
+        } catch (Exception $error) {
+            throw new Exception($error->getMessage());
+        }
+    }
+
+    public function getByActiveToken($token): object|bool
+    {
+        try {
+            $condition = "account_activation_hash = '$token'";
             $users = $this->fetchAll($condition);
             return current($users);
         } catch (Exception $error) {
@@ -164,6 +177,20 @@ class UserRepository implements UserRepositoryInterface
             $password = $user->getPassword();
             $sql = "UPDATE users
                     SET password = '$password', reset_token_hash = NULL, reset_token_expires_at = NULL
+                    WHERE id = '$id'";
+            if ($mysqli->query($sql) === true) return true;
+        } catch (Exception $error) {
+            throw new Exception($error->getMessage());
+        }
+    }
+
+    public function activeAccount($id): object|bool
+    {
+        try {
+            global $mysqli;
+
+            $sql = "UPDATE users
+                    SET account_activation_hash = null
                     WHERE id = '$id'";
             if ($mysqli->query($sql) === true) return true;
         } catch (Exception $error) {

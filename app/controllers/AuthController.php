@@ -51,6 +51,9 @@ class AuthController
             exit;
         }
 
+        $activation_token = bin2hex(random_bytes(16));
+        $activation_token_hash = hash('sha256', $activation_token);
+
         $params = [
             'fullName' => $fullName,
             'email' => $email,
@@ -59,14 +62,55 @@ class AuthController
             'role' => $role,
             'created_at' => getDateTime(),
             'updated_at' => getDateTime(),
-            'status' => $status
+            'status' => $status,
+            'account_activation_hash' => $activation_token_hash
         ];
 
         $this->userService->store($params);
 
+        $mail = mailer();
+
+        $mail->setFrom("duonganhhao4751@gmail.com");
+        $mail->addAddress($email);
+        $mail->Subject = "Activation Account";
+        $mail->Body = <<<END
+        Click <a href="http://inventory.com/active-account?active-token=$activation_token">here</a> to activate your account
+        END;
+
+        try {
+            $mail->send();
+        } catch (Exception $error) {
+            echo "Message could not be sent. Mailer error: {$mail->ErrorInfo}";
+        }
+
         $_SESSION['toastrNotify'] = [
             'alert-type' => 'success',
-            'message' => 'Register successfully, you can log in'
+            'message' => 'Sign up successfully'
+        ];
+
+        header("Location: /active-account-page");
+        exit;
+    }
+
+    public function activeAccount()
+    {
+        $active_token = $_GET['active-token'];
+        $active_token_hash = hash('sha256', $active_token);
+
+        $user = $this->userService->getByActiveToken($active_token_hash);
+        if ($user === null) {
+            $_SESSION['toastrNotify'] = [
+                'alert-type' => 'error',
+                'message' => 'Token not found'
+            ];
+            header("Location: " . $_SERVER['HTTP_REFERER']);
+            exit;
+        }
+        $this->userService->activeAccount($user->getId());
+
+        $_SESSION['toastrNotify'] = [
+            'alert-type' => 'success',
+            'message' => 'Actived account, you can log in'
         ];
 
         header("Location: /login-form");
@@ -93,6 +137,16 @@ class AuthController
             $_SESSION['toastrNotify'] = [
                 'alert-type' => 'error',
                 'message' => 'Email is not exist, please try again or register new account'
+            ];
+
+            header("Location: " . $_SERVER['HTTP_REFERER']);
+            exit;
+        }
+
+        if ($user->getAccountActivationHash() !== null) {
+            $_SESSION['toastrNotify'] = [
+                'alert-type' => 'error',
+                'message' => 'Your account is inactive, please check your email to active !'
             ];
 
             header("Location: " . $_SERVER['HTTP_REFERER']);
@@ -151,6 +205,12 @@ class AuthController
     public function confirmEmailPage()
     {
         require ABSPATH . 'resources/auth/confirmEmailPage.php';
+    }
+
+
+    public function activeAccountPage()
+    {
+        require ABSPATH . 'resources/auth/activeAccountPage.php';
     }
 
     public function sendPasswordReset()

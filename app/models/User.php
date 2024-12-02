@@ -16,8 +16,9 @@ class User
     private $avatar;
     private $reset_token_hash;
     private $reset_token_expires_at;
+    private $account_activation_hash;
 
-    public function __construct($id, $fullName, $email, $password, $phone, $role, $created_at, $updated_at, $status, $avatar, $reset_token_hash, $reset_token_expires_at)
+    public function __construct($id, $fullName, $email, $password, $phone, $role, $created_at, $updated_at, $status, $avatar, $reset_token_hash, $reset_token_expires_at, $account_activation_hash)
     {
         $this->id = $id;
         $this->fullName = $fullName;
@@ -31,6 +32,7 @@ class User
         $this->avatar = $avatar;
         $this->reset_token_hash = $reset_token_hash;
         $this->reset_token_expires_at = $reset_token_expires_at;
+        $this->account_activation_hash = $account_activation_hash;
     }
 
     /**
@@ -245,6 +247,24 @@ class User
     public function setResetTokenExpiresAt($reset_token_expires_at): self
     {
         $this->reset_token_expires_at = $reset_token_expires_at;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of account_activation_hash
+     */
+    public function getAccountActivationHash()
+    {
+        return $this->account_activation_hash;
+    }
+
+    /**
+     * Set the value of account_activation_hash
+     */
+    public function setAccountActivationHash($account_activation_hash): self
+    {
+        $this->account_activation_hash = $account_activation_hash;
 
         return $this;
     }

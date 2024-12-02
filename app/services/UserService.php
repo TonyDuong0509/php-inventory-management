@@ -57,4 +57,14 @@ class UserService
     {
         return $this->userRepository->resetPassword($user);
     }
+
+    public function activeAccount($userId): object|bool
+    {
+        return $this->userRepository->activeAccount($userId);
+    }
+
+    public function getByActiveToken($token): object|bool
+    {
+        return $this->userRepository->getByActiveToken($token);
+    }
 }
