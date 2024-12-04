@@ -555,4 +555,118 @@ $router->map('GET', '/product/wise-pdf', function () use ($serviceContainer) {
     $controller->productWisePDF();
 }, 'product.wise.pdf');
 
+
+// Permission Routes
+$router->map('GET', '/all-permissions', function () use ($serviceContainer) {
+    Middleware::authMiddleware();
+    $controller = $serviceContainer->resolve(AuthController::class);
+    $controller->allPermissions();
+}, 'all.permissions');
+
+$router->map('GET', '/add-permission', function () use ($serviceContainer) {
+    Middleware::authMiddleware();
+    $controller = $serviceContainer->resolve(AuthController::class);
+    $controller->addPermission();
+}, 'add.permission');
+
+$router->map('POST', '/store-permission', function () use ($serviceContainer) {
+    Middleware::authMiddleware();
+    $controller = $serviceContainer->resolve(AuthController::class);
+    $controller->storePermission();
+}, 'store.permission');
+
+$router->map('GET', '/edit-permission/[i:id]', function ($id) use ($serviceContainer) {
+    Middleware::authMiddleware();
+    $controller = $serviceContainer->resolve(AuthController::class);
+    $controller->editPermission($id);
+}, 'edit.permission');
+
+$router->map('POST', '/update-permission', function () use ($serviceContainer) {
+    Middleware::authMiddleware();
+    $controller = $serviceContainer->resolve(AuthController::class);
+    $controller->updatePermission();
+}, 'update.permission');
+
+$router->map('GET', '/delete-permission/[i:id]', function ($id) use ($serviceContainer) {
+    Middleware::authMiddleware();
+    $controller = $serviceContainer->resolve(AuthController::class);
+    $controller->deletePermission($id);
+}, 'delete.permission');
+
+
+// Role Routes
+$router->map('GET', '/all-roles', function () use ($serviceContainer) {
+    Middleware::authMiddleware();
+    $controller = $serviceContainer->resolve(AuthController::class);
+    $controller->allRoles();
+}, 'all.roles');
+
+$router->map('GET', '/add-role', function () use ($serviceContainer) {
+    Middleware::authMiddleware();
+    $controller = $serviceContainer->resolve(AuthController::class);
+    $controller->addRole();
+}, 'add.role');
+
+$router->map('POST', '/store-role', function () use ($serviceContainer) {
+    Middleware::authMiddleware();
+    $controller = $serviceContainer->resolve(AuthController::class);
+    $controller->storeRole();
+}, 'store.role');
+
+$router->map('GET', '/edit-role/[i:id]', function ($id) use ($serviceContainer) {
+    Middleware::authMiddleware();
+    $controller = $serviceContainer->resolve(AuthController::class);
+    $controller->editRole($id);
+}, 'edit.role');
+
+$router->map('POST', '/update-role', function () use ($serviceContainer) {
+    Middleware::authMiddleware();
+    $controller = $serviceContainer->resolve(AuthController::class);
+    $controller->updateRole();
+}, 'update.role');
+
+$router->map('GET', '/delete-role/[i:id]', function ($id) use ($serviceContainer) {
+    Middleware::authMiddleware();
+    $controller = $serviceContainer->resolve(AuthController::class);
+    $controller->deleteRole($id);
+}, 'delete.role');
+
+
+// RoleHasPermissions Routes
+$router->map('GET', '/add-role-permissions', function () use ($serviceContainer) {
+    Middleware::authMiddleware();
+    $controller = $serviceContainer->resolve(AuthController::class);
+    $controller->addRolePermissions();
+}, 'add.role.permissions');
+
+$router->map('POST', '/store-role-permissions', function () use ($serviceContainer) {
+    Middleware::authMiddleware();
+    $controller = $serviceContainer->resolve(AuthController::class);
+    $controller->rolePermissionsStore();
+}, 'store.role.permissions');
+
+$router->map('GET', '/all-role-permissions', function () use ($serviceContainer) {
+    Middleware::authMiddleware();
+    $controller = $serviceContainer->resolve(AuthController::class);
+    $controller->allRolePermissions();
+}, 'all.role.permissions');
+
+$router->map('GET', '/edit-role-permissions/[i:id]', function ($id) use ($serviceContainer) {
+    Middleware::authMiddleware();
+    $controller = $serviceContainer->resolve(AuthController::class);
+    $controller->editRolePermissions($id);
+}, 'edit.role.permissions');
+
+$router->map('POST', '/update-role-permissions/[i:id]', function ($id) use ($serviceContainer) {
+    Middleware::authMiddleware();
+    $controller = $serviceContainer->resolve(AuthController::class);
+    $controller->updateRolePermissions($id);
+}, 'update.role.permissions');
+
+$router->map('GET', '/delete-role-permissions/[i:id]', function ($id) use ($serviceContainer) {
+    Middleware::authMiddleware();
+    $controller = $serviceContainer->resolve(AuthController::class);
+    $controller->deleteRolePermissions($id);
+}, 'delete.role.permissions');
+
 $match = $router->match();

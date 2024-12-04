@@ -2,6 +2,9 @@
 
 namespace App\Controllers;
 
+use App\Services\PermissionsService;
+use App\Services\RoleHasPermissionsService;
+use App\Services\RoleService;
 use App\Services\UserService;
 use Exception;
 
@@ -11,10 +14,20 @@ use function Utils\Functions\mailer;
 class AuthController
 {
     private $userService;
+    private $permissionsService;
+    private $roleService;
+    private $roleHasPermissionsService;
 
-    public function __construct(UserService $userService)
-    {
+    public function __construct(
+        UserService $userService,
+        PermissionsService $permissionsService,
+        RoleService $roleService,
+        RoleHasPermissionsService $roleHasPermissionsService,
+    ) {
         $this->userService = $userService;
+        $this->permissionsService = $permissionsService;
+        $this->roleService = $roleService;
+        $this->roleHasPermissionsService = $roleHasPermissionsService;
     }
 
     public function registerForm()
@@ -320,6 +333,382 @@ class AuthController
             'message' => 'Reseted Password successfully, you can login'
         ];
         header("Location: /login-form");
+        exit;
+    }
+
+    public function allPermissions()
+    {
+        $userId = $_SESSION['user']['id'];
+        $user = $this->userService->getById($userId);
+
+        $permissions = $this->permissionsService->getAllPermissions();
+
+        require ABSPATH . 'resources/permission/allPermissions.php';
+    }
+
+    public function addPermission()
+    {
+        $userId = $_SESSION['user']['id'];
+        $user = $this->userService->getById($userId);
+
+        require ABSPATH . 'resources/permission/addPermission.php';
+    }
+
+    public function storePermission()
+    {
+        $name = $_POST['name'];
+        $guard_name = $_POST['guard_name'];
+
+        $params = [
+            'name' => $name,
+            'guard_name' => $guard_name
+        ];
+
+        $result = $this->permissionsService->store($params);
+
+        if (!$result) {
+            $_SESSION['toastrNotify'] = [
+                'alert-type' => 'error',
+                'message' => 'Create permission failed'
+            ];
+            header("Location: " . $_SERVER['HTTP_REFERER']);
+            exit;
+        }
+
+        $_SESSION['toastrNotify'] = [
+            'alert-type' => 'success',
+            'message' => 'Created permission successfully'
+        ];
+        header("Location: /all-permissions");
+        exit;
+    }
+
+    public function editPermission($id)
+    {
+        $userId = $_SESSION['user']['id'];
+        $user = $this->userService->getById($userId);
+        $permission = $this->permissionsService->getById($id);
+
+        require ABSPATH . 'resources/permission/editPermission.php';
+    }
+
+    public function updatePermission()
+    {
+        $id = $_POST['id'];
+        $name = $_POST['name'];
+        $guard_name = $_POST['guard_name'];
+
+        $permission = $this->permissionsService->getById($id);
+        $permission->setName($name);
+        $permission->setGuardName($guard_name);
+
+        $result = $this->permissionsService->update($permission);
+
+        if (!$result) {
+            $_SESSION['toastrNotify'] = [
+                'alert-type' => 'error',
+                'message' => 'Update permission failed'
+            ];
+            header("Location: " . $_SERVER['HTTP_REFERER']);
+            exit;
+        }
+
+        $_SESSION['toastrNotify'] = [
+            'alert-type' => 'success',
+            'message' => 'Updated permission successfully'
+        ];
+        header("Location: /all-permissions");
+        exit;
+    }
+
+    public function deletePermission($id)
+    {
+        $result = $this->permissionsService->delete($id);
+
+        if (!$result) {
+            $_SESSION['toastrNotify'] = [
+                'alert-type' => 'error',
+                'message' => 'Delete permission failed'
+            ];
+            header("Location: " . $_SERVER['HTTP_REFERER']);
+            exit;
+        }
+
+        $_SESSION['toastrNotify'] = [
+            'alert-type' => 'success',
+            'message' => 'Deleted permission successfully'
+        ];
+        header("Location: /all-permissions");
+        exit;
+    }
+
+    public function allRoles()
+    {
+        $userId = $_SESSION['user']['id'];
+        $user = $this->userService->getById($userId);
+
+        $roles = $this->roleService->getAllRoles();
+
+        $this->roleHasPermissionsService->checkPermission('Role', $user->getRolePermission()->getId());
+
+        require ABSPATH . 'resources/role/allRoles.php';
+    }
+
+    public function addRole()
+    {
+        $userId = $_SESSION['user']['id'];
+        $user = $this->userService->getById($userId);
+
+        $this->roleHasPermissionsService->checkPermission('Role', $user->getRolePermission()->getId());
+
+        require ABSPATH . 'resources/role/addRole.php';
+    }
+
+    public function storeRole()
+    {
+        $name = $_POST['name'] ?? '';
+
+        $params = [
+            'name' => $name,
+            'permissions' => []
+        ];
+
+        $result = $this->roleService->store($params);
+
+        if (!$result) {
+            $_SESSION['toastrNotify'] = [
+                'alert-type' => 'error',
+                'message' => 'Create role failed'
+            ];
+            header("Location: " . $_SERVER['HTTP_REFERER']);
+            exit;
+        }
+
+        $_SESSION['toastrNotify'] = [
+            'alert-type' => 'success',
+            'message' => 'Created role successfully'
+        ];
+        header("Location: /all-roles");
+        exit;
+    }
+
+    public function editRole($id)
+    {
+        $userId = $_SESSION['user']['id'];
+        $user = $this->userService->getById($userId);
+        $role = $this->roleService->getById($id);
+
+        require ABSPATH . 'resources/role/editRole.php';
+    }
+
+    public function updateRole()
+    {
+        $id = $_POST['id'];
+        $name = $_POST['name'];
+        $permissions = [];
+
+        $role = $this->roleService->getById($id);
+        $role->setName($name);
+
+        $result = $this->roleService->update($role);
+
+        if (!$result) {
+            $_SESSION['toastrNotify'] = [
+                'alert-type' => 'error',
+                'message' => 'Update role failed'
+            ];
+            header("Location: " . $_SERVER['HTTP_REFERER']);
+            exit;
+        }
+
+        $_SESSION['toastrNotify'] = [
+            'alert-type' => 'success',
+            'message' => 'Updated role successfully'
+        ];
+        header("Location: /all-roles");
+        exit;
+    }
+
+    public function deleteRole($id)
+    {
+        $result = $this->roleService->delete($id);
+
+        if (!$result) {
+            $_SESSION['toastrNotify'] = [
+                'alert-type' => 'error',
+                'message' => 'Delete role failed'
+            ];
+            header("Location: " . $_SERVER['HTTP_REFERER']);
+            exit;
+        }
+
+        $_SESSION['toastrNotify'] = [
+            'alert-type' => 'success',
+            'message' => 'Deleted role successfully'
+        ];
+        header("Location: /all-roles");
+        exit;
+    }
+
+    public function addRolePermissions()
+    {
+        $userId = $_SESSION['user']['id'];
+        $user = $this->userService->getById($userId);
+
+        $roles = $this->roleService->getAllRoles();
+        $permissions = $this->permissionsService->getAllPermissions();
+        $permissions_groups = $this->permissionsService->getAllGuardName();
+
+        $permissions_groups_byName = [];
+        foreach ($permissions_groups as $group) {
+            $guard_name = $group['guard_name'];
+            $permissions = $this->permissionsService->getByGuardName($guard_name);
+            $permissions_groups_byName[$guard_name] = $permissions;
+        }
+
+        require ABSPATH . 'resources/rolePermissions/addRolePermissions.php';
+    }
+
+    public function rolePermissionsStore()
+    {
+        $data = [];
+        $permissions = $_POST['permission'] ?? [];
+        foreach ($permissions as $key => $permission) {
+            $data['role_id'] = $_POST['role_id'];
+            $data['permission_id'][] = $permission;
+        }
+
+        $role = $this->roleService->getById($_POST['role_id']);
+        if (!$role) {
+            $_SESSION['toastrNotify'] = [
+                'alert-type' => 'error',
+                'message' => "Role not found"
+            ];
+            header("Location: "  . $_SERVER['HTTP_REFERER']);
+            exit;
+        }
+        $role->setPermissions($permissions);
+        $this->roleService->updatePermissions($role);
+
+        $result = $this->roleHasPermissionsService->store($data);
+
+        if (!$result) {
+            $_SESSION['toastrNotify'] = [
+                'alert-type' => 'error',
+                'message' => "Role Permissions Add failed"
+            ];
+            header("Location: "  . $_SERVER['HTTP_REFERER']);
+            exit;
+        }
+
+        $_SESSION['toastrNotify'] = [
+            'alert-type' => 'success',
+            'message' => "Role Permissions Added successfully"
+        ];
+        header("Location: /all-role-permissions");
+        exit;
+    }
+
+    public function allRolePermissions()
+    {
+        $userId = $_SESSION['user']['id'];
+        $user = $this->userService->getById($userId);
+
+        $roles = $this->roleService->getAllRoles();
+        foreach ($roles as $role) {
+            $permissions = $this->roleHasPermissionsService->getPermissionsByRoleId($role->getId());
+            $role->setPermissions($permissions);
+        }
+
+        require ABSPATH . 'resources/rolePermissions/allRolePermissions.php';
+    }
+
+    public static function roleHasPermissions($role, $permissions)
+    {
+        $hasPermission = true;
+        foreach ($permissions as $permission) {
+            if (!$role->hasPermissionTo($permission->getPermissionId())) {
+                $hasPermission = false;
+            }
+        }
+        return $hasPermission;
+    }
+
+    public function editRolePermissions($id)
+    {
+        $userId = $_SESSION['user']['id'];
+        $user = $this->userService->getById($userId);
+
+        $role = $this->roleService->getById($id);
+        $permissionsAll = $this->permissionsService->getAllPermissions();
+        $permissions_groups = $this->permissionsService->getAllGuardName();
+
+        $rolePermissions = $this->roleHasPermissionsService->getPermissionsByRoleId($id);
+        $role->setPermissions($rolePermissions);
+
+        $permissions_groups_byName = [];
+        foreach ($permissions_groups as $group) {
+            $guard_name = $group['guard_name'];
+            $permissions = $this->permissionsService->getByGuardName($guard_name);
+            $permissions_groups_byName[$guard_name] = $permissions;
+        }
+
+        $checkRoleHasPermissions = $this->roleHasPermissions($role, $rolePermissions);
+
+        require ABSPATH . 'resources/rolePermissions/editRolePermissions.php';
+    }
+
+    private function syncPermissions($roleId, $newPermissions)
+    {
+        $currentPermissions = $this->roleHasPermissionsService->getPermissionsByRoleId($roleId);
+        $currentPermissions = array_map(function ($permission) {
+            return $permission->getPermissionId();
+        }, $currentPermissions);
+
+        $permissionsToAdd = array_diff($newPermissions, $currentPermissions);
+        $permissionsToRemove = array_diff($currentPermissions, $newPermissions);
+
+        if (!empty($permissionsToAdd)) {
+            $this->roleHasPermissionsService->store([
+                'role_id' => $roleId,
+                'permission_id' => $permissionsToAdd
+            ]);
+        }
+
+        if (!empty($permissionsToRemove)) {
+            $this->roleHasPermissionsService->removePermissions($roleId, $permissionsToRemove);
+        }
+    }
+
+    public function updateRolePermissions($id)
+    {
+        $role = $this->roleService->getById($id);
+        $permissions = $_POST['permission'] ?? [];
+
+        if (!empty($permissions)) {
+            $this->syncPermissions($role->getId(), $permissions);
+        }
+
+        $_SESSION['toastrNotify'] = [
+            'alert-type' => 'success',
+            'message' => 'Role Permissions Updated successfully'
+        ];
+        header("Location: /edit-role-permissions/$id");
+        exit;
+    }
+
+    public function deleteRolePermissions($id)
+    {
+        $role = $this->roleService->getById($id);
+        if (!is_null($role)) {
+            $this->roleService->delete($id);
+        }
+
+        $_SESSION['toastrNotify'] = [
+            'alert-type' => 'success',
+            'message' => 'Role Permissions Deleted successfully'
+        ];
+        header("Location: /all-role-permissions");
         exit;
     }
 }

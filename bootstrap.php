@@ -11,6 +11,9 @@ require_once ABSPATH . 'app/repositories/interfaces/ProductRepositoryInterface.p
 require_once ABSPATH . 'app/repositories/interfaces/InvoiceRepositoryInterface.php';
 require_once ABSPATH . 'app/repositories/interfaces/PaymentRepositoryInterface.php';
 require_once ABSPATH . 'app/repositories/interfaces/PurchaseRepositoryInterface.php';
+require_once ABSPATH . 'app/repositories/interfaces/RoleRepositoryInterface.php';
+require_once ABSPATH . 'app/repositories/interfaces/PermissionsRepositoryInterface.php';
+require_once ABSPATH . 'app/repositories/interfaces/RoleHasPermissionsRepositoryInterface.php';
 
 
 // Models && Repositories
@@ -35,8 +38,16 @@ require_once ABSPATH . 'app/models/Payment.php';
 require_once ABSPATH . 'app/repositories/PaymentRepository.php';
 require_once ABSPATH . 'app/models/PaymentDetails.php';
 
-require_once ABSPATH . 'container/ServiceContainer.php';
+require_once ABSPATH . 'app/models/Role.php';
+require_once ABSPATH . 'app/repositories/RoleRepository.php';
 
+require_once ABSPATH . 'app/models/Permissions.php';
+require_once ABSPATH . 'app/repositories/PermissionsRepository.php';
+
+require_once ABSPATH . 'app/models/RoleHasPermissions.php';
+require_once ABSPATH . 'app/repositories/RoleHasPermissionsRepository.php';
+
+require_once ABSPATH . 'container/ServiceContainer.php';
 
 // Services
 require_once ABSPATH . 'app/services/SupplierService.php';
@@ -48,6 +59,9 @@ require_once ABSPATH . 'app/services/ProductService.php';
 require_once ABSPATH . 'app/services/PurchaseService.php';
 require_once ABSPATH . 'app/services/InvoiceService.php';
 require_once ABSPATH . 'app/services/PaymentService.php';
+require_once ABSPATH . 'app/services/RoleService.php';
+require_once ABSPATH . 'app/services/PermissionsService.php';
+require_once ABSPATH . 'app/services/RoleHasPermissionsService.php';
 
 
 // Middlewares

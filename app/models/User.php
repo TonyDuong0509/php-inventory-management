@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Repositories\RoleRepository;
+
 class User
 {
     private $id;
@@ -267,5 +269,11 @@ class User
         $this->account_activation_hash = $account_activation_hash;
 
         return $this;
+    }
+
+    public function getRolePermission()
+    {
+        $roleRepository = new RoleRepository();
+        return $roleRepository->getByName($this->role);
     }
 }

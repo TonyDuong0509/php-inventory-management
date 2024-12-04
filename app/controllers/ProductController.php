@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Services\CategoryService;
 use App\Services\ProductService;
+use App\Services\RoleHasPermissionsService;
 use App\Services\SupplierService;
 use App\Services\UnitService;
 use App\Services\UserService;
@@ -17,6 +18,7 @@ class ProductController
     private $unitService;
     private $categoryService;
     private $userService;
+    private $roleHasPermissionsService;
 
     public function __construct(
         ProductService $productService,
@@ -24,12 +26,14 @@ class ProductController
         UnitService $unitService,
         CategoryService $categoryService,
         UserService $userService,
+        RoleHasPermissionsService $roleHasPermissionsService,
     ) {
         $this->productService = $productService;
         $this->supplierService = $supplierService;
         $this->unitService = $unitService;
         $this->categoryService = $categoryService;
         $this->userService = $userService;
+        $this->roleHasPermissionsService = $roleHasPermissionsService;
     }
 
     public function productsAll()
@@ -37,6 +41,8 @@ class ProductController
         $userId = $_SESSION['user']['id'];
         $user = $this->userService->getById($userId);
         $products = $this->productService->getAllproducts();
+
+        $this->roleHasPermissionsService->checkPermission('Products', $user->getRolePermission()->getId());
 
         require ABSPATH . 'resources/product/allProducts.php';
     }
@@ -48,6 +54,8 @@ class ProductController
         $suppliers = $this->supplierService->getAllSuppliers();
         $units = $this->unitService->getAllUnits();
         $categories = $this->categoryService->getAllCategories();
+
+        $this->roleHasPermissionsService->checkPermission('Products', $user->getRolePermission()->getId());
 
         require ABSPATH . 'resources/product/addProduct.php';
     }

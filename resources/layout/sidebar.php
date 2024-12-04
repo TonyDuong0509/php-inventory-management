@@ -123,6 +123,39 @@
                         <li><a href="/supplier/product/wise-report">Supplier / Product Wise</a></li>
                     </ul>
                 </li>
+
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="ri-mail-send-line"></i>
+                        <span>Manage Permissions</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href="/all-permissions">All Permissions</a></li>
+                        <li><a href="/add-permission">Add Permission</a></li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="ri-mail-send-line"></i>
+                        <span>Manage Role</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href="/all-roles">All Roles</a></li>
+                        <li><a href="/add-role">Add Role</a></li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="ri-mail-send-line"></i>
+                        <span>Role In Permissions</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href="/add-role-permissions">Role In Permissions</a></li>
+                        <li><a href="/all-role-permissions">All Role In Permissions</a></li>
+                    </ul>
+                </li>
             </ul>
         </div>
         <!-- Sidebar -->

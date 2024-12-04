@@ -2,6 +2,8 @@
 
 namespace App\Middlewares;
 
+use App\Services\RoleHasPermissionsService;
+
 class Middleware
 {
     public static function authMiddleware()

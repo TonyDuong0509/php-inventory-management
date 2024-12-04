@@ -7,6 +7,7 @@ use App\Services\CustomerService;
 use App\Services\InvoiceService;
 use App\Services\PaymentService;
 use App\Services\ProductService;
+use App\Services\RoleHasPermissionsService;
 use App\Services\UserService;
 
 use function Utils\Functions\getDateTime;
@@ -19,6 +20,7 @@ class InvoiceController
     private $userService;
     private $paymentService;
     private $productService;
+    private $roleHasPermissionsService;
 
     public function __construct(
         InvoiceService $invoiceService,
@@ -27,6 +29,7 @@ class InvoiceController
         UserService $userService,
         PaymentService $paymentService,
         ProductService $productService,
+        RoleHasPermissionsService $roleHasPermissionsService,
     ) {
         $this->invoiceService = $invoiceService;
         $this->categoryService = $categoryService;
@@ -34,13 +37,17 @@ class InvoiceController
         $this->userService = $userService;
         $this->paymentService = $paymentService;
         $this->productService = $productService;
+        $this->roleHasPermissionsService = $roleHasPermissionsService;
     }
 
     public function invoicesAll()
     {
         $userId = $_SESSION['user']['id'];
         $user = $this->userService->getById($userId);
+
         $invoices = $this->invoiceService->getAllInvoices();
+
+        $this->roleHasPermissionsService->checkPermission('Invoice', $user->getRolePermission()->getId());
 
         require ABSPATH . 'resources/invoice/allInvoices.php';
     }
@@ -61,6 +68,8 @@ class InvoiceController
         $date = date('Y-m-d');
 
         $customers = $this->customerService->getAllCustomers();
+
+        $this->roleHasPermissionsService->checkPermission('Invoice', $user->getRolePermission()->getId());
 
         require ABSPATH . 'resources/invoice/addInvoice.php';
     }

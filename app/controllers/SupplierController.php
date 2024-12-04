@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Services\RoleHasPermissionsService;
 use App\Services\SupplierService;
 use App\Services\UserService;
 
@@ -14,7 +15,7 @@ class SupplierController
 
     public function __construct(
         SupplierService $supplierService,
-        UserService $userService
+        UserService $userService,
     ) {
         $this->supplierService = $supplierService;
         $this->userService = $userService;

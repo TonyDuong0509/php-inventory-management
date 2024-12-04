@@ -47,6 +47,24 @@ class InvoiceRepository implements InvoiceRepositoryInterface
         }
     }
 
+    public function count($condition = null): int
+    {
+        try {
+            global $mysqli;
+
+            $sql = "SELECT COUNT(*) as total FROM invoices";
+            if ($condition) {
+                $sql .= " WHERE $condition";
+            }
+            $result = $mysqli->query($sql);
+            if ($result && $row = $result->fetch_assoc()) {
+                return (int)$row['total'];
+            }
+        } catch (Exception $error) {
+            throw new Exception($error->getMessage());
+        }
+    }
+
     public function storeInvoiceDetails($paramsDetails, $invoice_id)
     {
         global $mysqli;
