@@ -669,4 +669,12 @@ $router->map('GET', '/delete-role-permissions/[i:id]', function ($id) use ($serv
     $controller->deleteRolePermissions($id);
 }, 'delete.role.permissions');
 
+
+
+$router->map('GET', '/404/page-notfound', function () use ($serviceContainer) {
+    Middleware::authMiddleware();
+    $controller = $serviceContainer->resolve(AuthController::class);
+    $controller->pageNotFound();
+}, 'page.notfound');
+
 $match = $router->match();

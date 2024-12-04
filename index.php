@@ -29,6 +29,6 @@ require ABSPATH . './routes/web.php';
 if (isset($match['target']) && is_callable($match['target'])) {
     call_user_func_array($match['target'], $match['params']);
 } else {
-    echo 'Error 404 not found';
+    header("Location: /404/page-notfound");
     exit;
 }

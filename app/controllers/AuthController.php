@@ -711,4 +711,9 @@ class AuthController
         header("Location: /all-role-permissions");
         exit;
     }
+
+    public function pageNotFound()
+    {
+        require ABSPATH . 'resources/auth/404Page.php';
+    }
 }
