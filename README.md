@@ -1,16 +1,20 @@
 # 🌟 ** Iventory Management System ** 🌟
 
-** Description**:
-- This project followed OOP, MVC
-- This is project about manage inventory. You can manage Products, Suppliers, Customers, Invoices, Purchases,...
+**Key Features**
+- Implemented role-based access control with roles and permissions, including Admin, Manager, and Employee, for authentication and authorization.
+- Designed and managed features for tracking product inventory, including stock-in and stock-out processes.
+- Developed modules to handle supplier and customer management efficiently.
+- Built functionalities for managing purchase and sales invoices, with PDF export support for detailed reporting.
+- Organized products into categories for streamlined inventory operations.
+- Integrated Google Login for user authentication and account activation.
+- Added functionality for sending emails during password reset processes.
+- Applied Object-Oriented Programming (OOP) principles within the MVC architecture for modular and maintainable code.
+- Utilized Dependency Injection to manage dependencies and improve code reusability.
+**Technologies**
+- Frontend: HTML, CSS, JavaScript, jQuery
+- Backend: PHP, MySQL, OAuth
+- Database: MySQL
 
----
-
-## 📋 **Main Features**
-- 🧘‍♂️OOP, MVC
-- 📝 Manage Management Board, Authentication & Authorization.
-- 📂 CRUD Suppliers, Customers, Units, Categories, Products, Purchases, Invoice, Stock, Permissions, Role, Role In Permissions.
-- Send Email, Reset Password, Active Password from google...
 ---
 
 ## 🚀 **Settings**
