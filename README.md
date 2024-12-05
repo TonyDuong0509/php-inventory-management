@@ -1,6 +1,7 @@
 # 🌟 ** Iventory Management System ** 🌟
 
 **Key Features**
+
 - Implemented role-based access control with roles and permissions, including Admin, Manager, and Employee, for authentication and authorization.
 - Designed and managed features for tracking product inventory, including stock-in and stock-out processes.
 - Developed modules to handle supplier and customer management efficiently.
@@ -10,6 +11,7 @@
 - Added functionality for sending emails during password reset processes.
 - Applied Object-Oriented Programming (OOP) principles within the MVC architecture for modular and maintainable code.
 - Utilized Dependency Injection to manage dependencies and improve code reusability.
+
 **Technologies**
 - Frontend: HTML, CSS, JavaScript, jQuery
 - Backend: PHP, MySQL, OAuth
